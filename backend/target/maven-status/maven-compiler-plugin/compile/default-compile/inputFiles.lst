@@ -1,0 +1,12 @@
+C:\dev\cas-project\backend\src\main\java\ch\zhaw\casproject\config\CorsConfig.java
+C:\dev\cas-project\backend\src\main\java\ch\zhaw\casproject\config\SecurityConfig.java
+C:\dev\cas-project\backend\src\main\java\ch\zhaw\casproject\controller\AuthController.java
+C:\dev\cas-project\backend\src\main\java\ch\zhaw\casproject\dto\UserProfileDto.java
+C:\dev\cas-project\backend\src\main\java\ch\zhaw\casproject\model\Role.java
+C:\dev\cas-project\backend\src\main\java\ch\zhaw\casproject\model\User.java
+C:\dev\cas-project\backend\src\main\java\ch\zhaw\casproject\repository\UserRepository.java
+C:\dev\cas-project\backend\src\main\java\ch\zhaw\casproject\security\JwtAuthenticationFilter.java
+C:\dev\cas-project\backend\src\main\java\ch\zhaw\casproject\security\JwtService.java
+C:\dev\cas-project\backend\src\main\java\ch\zhaw\casproject\service\AuthService.java
+C:\dev\cas-project\backend\src\main\java\ch\zhaw\casproject\service\UserDetailsServiceImpl.java
+C:\dev\cas-project\backend\src\main\java\ch\zhaw\casproject\StartApplication.java
