@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Optional: light custom tweaks can go here */
+/* Ensure body background and font render nicely */
+body {
+  @apply bg-gray-50 text-gray-800;
+}

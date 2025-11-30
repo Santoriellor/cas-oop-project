@@ -1,0 +1,50 @@
+@startuml
+
+class User {
+  - id: int
+  - last_name: string
+  - first_name: string
+  - email: string
+  - password: string
+}
+
+class Participant {
+}
+
+class Teacher {
+}
+
+User <|-- Participant
+User <|-- Formateur
+
+class Course {
+  - id: int
+  - title: string
+  - description: string
+  - date: datetime
+  - nbParticipantMax: int
+}
+
+class Inscription {
+  - id: int
+  - dateInscription: datetime
+  - status: string
+  + generateAttestation()
+}
+
+class Document {
+  - id: int
+  - type: enum (support, preparation, attestation)
+  - url: string
+  - dateUpload: datetime
+}
+
+Participant "1" -- "*" Inscription
+Course "1" -- "*" Inscription
+
+Course "1" -- "*" Document
+Document "*" -- "1" Formateur :  is uploaded by
+
+Participant "1" -- "*" Document : receive
+
+@enduml
