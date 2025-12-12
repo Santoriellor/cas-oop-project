@@ -1,4 +1,4 @@
-# Demo Webapp (Spring Boot + Angular + PostgreSQL)
+# CAS project Webapp (Spring Boot + Angular + PostgreSQL)
 
 Architecture:
 - docker-compose.yml : deploy PostgreSQL
@@ -10,16 +10,9 @@ Frontend styling:
 - To develop UI: run `npm install` then `npm start` in `/frontend`.
 - Tailwind config: `frontend/tailwind.config.js`; utilities imported in `frontend/src/styles.scss`.
 
-Start database :
-1. docker-compose up -d
+The app is deployed on a VPS with Docker and served through Traefik: https://casproject.santoriello.ch
 
-Start backend (from /backend) :
-1. mvn clean install
-2. mvn spring-boot:run
-
-Start frontend (from /frontend) :
-1. npm install
-2. npm start
+Each push to the `main` branch triggers a new build and deployment via GitHub Actions.
 
 Configuration:
 - Postgres: user=demo_user, pass=demo_pass, db=demo_db
