@@ -1,22 +1,65 @@
-version: '3.8'
-
 services:
   db:
-    image: postgres:15
-    container_name: postgres-db
+    image: postgres:16
+    container_name: casproject_db
     environment:
-      POSTGRES_USER: demo_user
-      POSTGRES_PASSWORD: demo_pass
-      POSTGRES_DB: demo_db
-    ports:
-      - "5433:5432"
+      POSTGRES_DB: casproject
+      POSTGRES_USER: casprojectuser
+      POSTGRES_PASSWORD: casprojectpassword
     volumes:
       - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U demo_user"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    networks:
+      - casprojectnet
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: casproject_backend
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/casproject
+      SPRING_DATASOURCE_USERNAME: casprojectuser
+      SPRING_DATASOURCE_PASSWORD: casprojectpassword
+      SERVER_PORT: 8080
+    networks:
+      - casprojectnet
+      - proxy-network
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+
+      # Backend is served at https://casproject.santoriello.ch/api
+      - "traefik.http.routers.casproject-backend.rule=Host(`casproject.santoriello.ch`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.casproject-backend.entrypoints=websecure"
+      - "traefik.http.routers.casproject-backend.tls.certresolver=le"
+      - "traefik.http.routers.casproject-backend.service=casproject-backend"
+      # Springboot listens on port 8080
+      - "traefik.http.services.casproject-backend.loadbalancer.server.port=8080"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: casproject_frontend
+    depends_on:
+      - backend
+    networks:
+      - proxy-network
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.casproject-frontend.rule=Host(`casproject.santoriello.ch`)"
+      - "traefik.http.routers.casproject-frontend.entrypoints=websecure"
+      - "traefik.http.routers.casproject-frontend.tls.certresolver=le"
+      - "traefik.http.services.casproject-frontend.loadbalancer.server.port=80"
 
 volumes:
   pgdata:
+
+networks:
+  casprojectnet:
+  proxy-network:
+    external: true
