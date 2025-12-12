@@ -16,7 +16,12 @@ import { AuthService } from '../service/auth.service';
             <label class="block text-sm font-medium text-gray-700 mb-1" for="email">Email</label>
             <div class="relative">
               <input id="email" [(ngModel)]="email" (ngModelChange)="onEmailChange($event)" type="email" autocomplete="email"
-                     class="block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm pr-20 p-2"
+                     [ngClass]="{
+                        'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500': usernameAvailable === null,
+                        'border-green-500 focus:border-green-600 focus:ring-green-600': usernameAvailable === true,
+                        'border-red-500 focus:border-red-600 focus:ring-red-600': usernameAvailable === false
+                      }"
+                     class="block w-full rounded-lg shadow-sm pr-20 p-2"
                      placeholder="you@example.com" />
               <span *ngIf="email && checkingEmail" class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">Checking…</span>
               <span *ngIf="email && !checkingEmail && emailAvailable === true" class="absolute right-2 top-1/2 -translate-y-1/2 text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700 border border-green-200">Available</span>
