@@ -12,7 +12,7 @@ RUN chmod +x mvnw
 RUN ./mvnw dependency:go-offline -B
 
 # Build the application (skip tests for faster build)
-RUN ./mvnw clean package -DskipTests -B
+RUN ./mvnw clean package spring-boot:repackage -DskipTests -B
 
 # Stage 2 — Run the JAR
 FROM eclipse-temurin:25-jdk
