@@ -17,6 +17,12 @@ spring:
             non_contextual_creation: true
           time_zone: UTC
         format_sql: true
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+    livereload:
+      enabled: true
 
 logging:
   file:

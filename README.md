@@ -17,3 +17,6 @@ Each push to the `main` branch triggers a new build and deployment via GitHub Ac
 Configuration:
 - Postgres: user=demo_user, pass=demo_pass, db=demo_db
 - Spring Boot: application.yml
+
+To run the locally:
+- `docker compose -f docker-compose.dev.yml up --build`

@@ -2,7 +2,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   datasource:
-    url: jdbc:postgresql://localhost:5433/demo_db
+    url: jdbc:postgresql://localhost:5432/demo_db
     username: demo_user
     password: demo_pass
     driver-class-name: org.postgresql.Driver
@@ -17,6 +17,12 @@ spring:
             non_contextual_creation: true
           time_zone: UTC
         format_sql: true
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+    livereload:
+      enabled: true
 
 logging:
   file:
@@ -26,9 +32,10 @@ logging:
     org.springframework.security: INFO
 
 server:
-  port: 8081
+  port: 8080
 
 app:
   jwt:
     secret: "my-super-strong-and-long-secret-key-12345"
     expiration-ms: 3600000
+  frontend-url: https://casproject.santoriello.ch
