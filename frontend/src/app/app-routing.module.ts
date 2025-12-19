@@ -5,16 +5,24 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AuthGuard } from './guard/auth.guard';
+import {LayoutComponent} from "./layout/layout.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+
+  // All authenticated pages use LayoutComponent
   {
-    path: 'welcome',
-    canActivate: [AuthGuard], // 🔐 Only allow when authenticated
-    component: WelcomeComponent
+    path: '',
+    component: LayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'welcome', component: WelcomeComponent },
+      // future pages here...
+    ]
   },
+
   { path: '**', redirectTo: '/login' } // 🔁 Wildcard fallback
 ];
 

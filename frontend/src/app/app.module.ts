@@ -8,13 +8,15 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import {AuthInterceptor} from "./interceptor/auth.interceptor";
+import {LayoutComponent} from "./layout/layout.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,
