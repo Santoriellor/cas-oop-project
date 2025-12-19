@@ -1,0 +1,57 @@
+services:
+  db:
+    image: postgres:16
+    container_name: casproject_db
+    environment:
+      POSTGRES_DB: casproject
+      POSTGRES_USER: casprojectuser
+      POSTGRES_PASSWORD: casprojectpassword
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - casprojectnet
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.dev
+    container_name: casproject_backend
+    depends_on:
+      - db
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/casproject
+      SPRING_DATASOURCE_USERNAME: casprojectuser
+      SPRING_DATASOURCE_PASSWORD: casprojectpassword
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+    networks:
+      - casprojectnet
+    volumes:
+        - ./backend:/app
+        - ~/.m2:/root/.m2
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.dev
+    container_name: casproject_frontend
+    depends_on:
+      - backend
+    ports:
+      - "4200:4200"
+    networks:
+      - casprojectnet
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  pgdata:
+
+networks:
+  casprojectnet:
+    driver: bridge
