@@ -9,7 +9,7 @@ import { AuthService } from '../service/auth.service';
       <aside
         [class.translate-x-0]="sidebarOpen"
         [class.-translate-x-full]="!sidebarOpen"
-        class="fixed z-20 inset-y-0 left-0 w-64 bg-gray-800 text-white p-4 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-auto"
+        class="fixed z-20 inset-y-12 left-0 w-64 bg-gray-800 text-white p-4 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-auto"
       >
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-xl font-semibold">Sidebar</h2>
@@ -39,7 +39,8 @@ import { AuthService } from '../service/auth.service';
           </div>
           <div class="flex items-center gap-4">
             <span *ngIf="user">{{ user.username }}</span>
-            <span *ngIf="user" class="px-2 py-1 bg-green-500 text-white rounded-full text-xs">Online</span>
+            <span *ngIf="user" class="px-2 py-1 bg-green-500 text-white rounded-full text-xs">Profile</span>
+            <span *ngIf="user" class="px-2 py-1 bg-green-500 text-white rounded-full text-xs">Settings</span>
             <button (click)="logout()" class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-white text-sm">
               Logout
             </button>
