@@ -18,5 +18,6 @@ Configuration:
 - Postgres: user=demo_user, pass=demo_pass, db=demo_db
 - Spring Boot: application.yml
 
-To run the locally:
-- `docker compose -f docker-compose.dev.yml up --build`
+To run the locally (development):
+- `docker compose -f docker-compose.dev.yml up --build -d`
+  (the backend will be available on http://localhost:8080, might take a while to build the image)
