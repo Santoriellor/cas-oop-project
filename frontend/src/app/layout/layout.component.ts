@@ -9,7 +9,7 @@ import { AuthService } from '../service/auth.service';
       <aside
         [class.translate-x-0]="sidebarOpen"
         [class.-translate-x-full]="!sidebarOpen"
-        class="fixed z-20 inset-y-12 left-0 w-64 bg-gray-800 text-white p-4 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-auto"
+        class="fixed z-20 inset-y-0 left-0 w-64 bg-gray-800 text-white p-4 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-auto"
       >
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-xl font-semibold">Sidebar</h2>
