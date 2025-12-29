@@ -7,6 +7,7 @@
 -[X] API endpoint for checking email availability → Rémy
 -[X] API endpoint for checking username availability → Rémy
 -[X] API endpoint for authenticating a user → Rémy
+-[X] API endpoint for health check (backend is up) → Rémy
 ## Courses relevant features:
 ### Minimum viable product:
 -[X] API endpoint for getting all courses → Jonathan

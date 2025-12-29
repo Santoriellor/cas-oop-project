@@ -20,4 +20,4 @@ Configuration:
 
 To run the locally (development):
 - `docker compose -f docker-compose.dev.yml up --build -d`
-  (the backend might take a while to build the image)
+  (the backend might take a while to build the image and be ready)
