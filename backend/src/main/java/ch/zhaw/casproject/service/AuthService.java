@@ -36,19 +36,31 @@ public class AuthService {
         public InvalidCredentialsException(String message) { super(message); }
     }
 
+    public static class NoRoleSelectedException extends RuntimeException {
+        public NoRoleSelectedException(String message) { super(message); }
+    }
+
     // --- Registration ---
-    public String register(String email, String username, String password) {
+    public String register(String email, String username, String password, boolean isUser, boolean isAdmin) {
         if (userRepository.findByEmail(email).isPresent())
             throw new DuplicateEmailException("Email already registered");
 
         if (userRepository.findByUsername(username).isPresent())
             throw new DuplicateUsernameException("Username already taken");
 
+        Set<Role> roles = new HashSet<>();
+        if (isUser) roles.add(Role.ROLE_USER);
+        if (isAdmin) roles.add(Role.ROLE_ADMIN);
+
+        if (roles.isEmpty()) {
+            throw new NoRoleSelectedException("At least one role must be selected");
+        }
+
         User user = User.builder()
                 .email(email)
                 .username(username)
                 .password(passwordEncoder.encode(password))
-                .roles(new HashSet<>(Set.of(Role.ROLE_USER)))
+                .roles(roles)
                 .build();
 
         userRepository.save(user);

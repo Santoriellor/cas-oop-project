@@ -6,6 +6,9 @@ import { RegisterComponent } from './register/register.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AuthGuard } from './guard/auth.guard';
 import {LayoutComponent} from "./layout/layout.component";
+import {AdminDashboardComponent} from "./admindashboard/admin-dashboard.component";
+import {UserDashboardComponent} from "./userdashboard/user-dashboard.component";
+import {CoursesListComponent} from "./courseslist/courses-list.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
@@ -19,6 +22,9 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'welcome', component: WelcomeComponent },
+      { path: 'admin', component: AdminDashboardComponent },
+      { path: 'userdashboard', component: UserDashboardComponent },
+      { path: 'courses', component: CoursesListComponent },
       // future pages here...
     ]
   },

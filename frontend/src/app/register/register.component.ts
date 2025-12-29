@@ -8,7 +8,10 @@ import { AuthService } from '../service/auth.service';
   <div class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
     <div class="w-full max-w-md">
       <div class="bg-white shadow-lg rounded-xl p-8">
-        <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6">Create your account</h2>
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-semibold text-gray-800">Create account</h2>
+          <app-connection-status></app-connection-status>
+        </div>
 
         <div class="space-y-4">
           <!-- Email -->
@@ -57,6 +60,22 @@ import { AuthService } from '../service/auth.service';
             <p class="text-xs text-gray-500 mt-1">Use at least 8 characters.</p>
           </div>
 
+          <!-- Roles -->
+          <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700">Register as:</label>
+            <div class="flex items-center gap-6">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" [(ngModel)]="isUser" class="rounded text-indigo-600 focus:ring-indigo-500" />
+                <span class="text-sm text-gray-700">User</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" [(ngModel)]="isAdmin" class="rounded text-indigo-600 focus:ring-indigo-500" />
+                <span class="text-sm text-gray-700">Admin</span>
+              </label>
+            </div>
+            <p *ngIf="!isUser && !isAdmin" class="text-xs text-red-500">Please select at least one role.</p>
+          </div>
+
           <button (click)="register()" [disabled]="!canSubmit()"
                   class="w-full inline-flex justify-center items-center rounded-lg py-2.5 font-medium transition
                          text-white bg-indigo-600 enabled:hover:bg-indigo-700 enabled:focus:outline-none enabled:focus:ring-2 enabled:focus:ring-indigo-500 enabled:focus:ring-offset-2
@@ -82,6 +101,8 @@ export class RegisterComponent {
   email = '';
   username = '';
   password = '';
+  isUser = true;
+  isAdmin = false;
   message: string | null = null;
   emailAvailable: boolean | null = null;
   usernameAvailable: boolean | null = null;
@@ -93,7 +114,7 @@ export class RegisterComponent {
   constructor(private auth: AuthService, private router: Router) {}
 
   register() {
-    this.auth.register(this.email, this.username, this.password).subscribe({
+    this.auth.register(this.email, this.username, this.password, this.isUser, this.isAdmin).subscribe({
       next: () => {
         this.message = 'Inscription réussie. Vous pouvez vous connecter.';
         setTimeout(() => this.router.navigate(['/login']), 1000);
@@ -133,6 +154,6 @@ export class RegisterComponent {
   }
 
   canSubmit(): boolean {
-    return !!this.email && !!this.username && !!this.password && this.emailAvailable === true && this.usernameAvailable === true;
+    return !!this.email && !!this.username && !!this.password && this.emailAvailable === true && this.usernameAvailable === true && (this.isUser || this.isAdmin);
   }
 }

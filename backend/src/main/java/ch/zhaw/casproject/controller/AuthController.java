@@ -25,9 +25,11 @@ public class AuthController {
     @PostMapping("/auth/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         try {
-            String token = authService.register(request.getEmail(), request.getUsername(), request.getPassword());
+            String token = authService.register(request.getEmail(), request.getUsername(), request.getPassword(), 
+                    request.getIsUser() != null && request.getIsUser(), 
+                    request.getIsAdmin() != null && request.getIsAdmin());
             return ResponseEntity.ok(new TokenResponse(token));
-        } catch (AuthService.DuplicateEmailException | AuthService.DuplicateUsernameException e) {
+        } catch (AuthService.DuplicateEmailException | AuthService.DuplicateUsernameException | AuthService.NoRoleSelectedException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
@@ -71,6 +73,8 @@ public class AuthController {
         private String email;
         private String username;
         private String password;
+        private Boolean isUser;
+        private Boolean isAdmin;
     }
 
     @Data

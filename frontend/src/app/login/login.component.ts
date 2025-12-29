@@ -8,7 +8,10 @@ import { AuthService } from '../service/auth.service';
   <div class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
     <div class="w-full max-w-md">
       <div class="bg-white shadow-lg rounded-xl p-8">
-        <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6">Sign in to your account</h2>
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-semibold text-gray-800">Sign in</h2>
+          <app-connection-status></app-connection-status>
+        </div>
 
         <div class="space-y-4">
           <div>

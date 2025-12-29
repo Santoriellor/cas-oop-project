@@ -9,6 +9,11 @@ import { RegisterComponent } from './register/register.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import {AuthInterceptor} from "./interceptor/auth.interceptor";
 import {LayoutComponent} from "./layout/layout.component";
+import {CommonModule} from "@angular/common";
+import {AdminDashboardComponent} from "./admindashboard/admin-dashboard.component";
+import {UserDashboardComponent} from "./userdashboard/user-dashboard.component";
+import {CoursesListComponent} from "./courseslist/courses-list.component";
+import {ConnectionStatusComponent} from "./connection-status/connection-status.component";
 
 @NgModule({
   declarations: [
@@ -16,13 +21,18 @@ import {LayoutComponent} from "./layout/layout.component";
     LoginComponent,
     RegisterComponent,
     WelcomeComponent,
-    LayoutComponent
+    LayoutComponent,
+    AdminDashboardComponent,
+    UserDashboardComponent,
+    CoursesListComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CommonModule,
+    ConnectionStatusComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
