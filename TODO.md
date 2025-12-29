@@ -1,20 +1,28 @@
 # TODO List
 # API endpoints
+## Authentication relevant features:
+### Minimum viable product:
+-[X] API endpoint for getting a user profile (/me) → Rémy
+-[X] API endpoint for registering a new user → Rémy
+-[X] API endpoint for checking email availability → Rémy
+-[X] API endpoint for checking username availability → Rémy
+-[X] API endpoint for authenticating a user → Rémy
 ## Courses relevant features:
 ### Minimum viable product:
+-[X] API endpoint for getting all courses → Jonathan
 -[ ] API endpoint for getting courses (filtering and sorting allowed, if possible paginating)
 -[ ] API endpoint for getting a specific course detail
 ### Future features: teacher dashboard
--[ ] API endpoint for creating a new course (teacher only)
--[ ] API endpoint for updating a specific course (teacher only)
--[ ] API endpoint for deleting a specific course (teacher only)
+-[X] API endpoint for creating a new course (teacher only) → Jonathan
+-[X] API endpoint for updating a specific course (teacher only) → Jonathan
+-[X] API endpoint for deleting a specific course (teacher only) → Jonathan
 
 ## Documents relevant features:
 ### Minimum viable product:
--[ ] API endpoint for getting all documents for a specific course
+-[X] API endpoint for getting all documents for a specific course → Jonathan
 -[ ] API endpoint for getting all documents for a specific user
 ### Future features: teacher dashboard
--[ ] API endpoint for uploading a new document (teacher only)
+-[X] API endpoint for uploading a new document (teacher only) → Jonathan
 -[ ] API endpoint for deleting a specific document (teacher only)
 
 ## Certifications relevant features:
@@ -63,13 +71,13 @@ JSON format : // to be defined
 -[ ] Display of error pages (404, 500, etc.)
 -[ ] Display of navigation bar (if needed)
 ### Pro feature
--[ ] Unit tests for authentication
+-[X] Unit tests for authentication → Rémy
 -[ ] Unit tests for courses
 -[ ] Unit tests for documents
 -[ ] Unit tests for certifications
 ## Integration tests
 ### Pro feature
--[ ] Integration tests for authentication
+-[X] Integration tests for authentication → Rémy
 -[ ] Integration tests for courses
 -[ ] Integration tests for documents
 -[ ] Integration tests for certifications
