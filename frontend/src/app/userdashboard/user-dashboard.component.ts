@@ -67,6 +67,13 @@ export class UserDashboardComponent implements OnInit {
   }
 
   downloadCert(id: number) {
-    this.courseService.downloadCertificate(id);
+    this.courseService.downloadCertificate(id).subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `certificate-${id}.pdf`; // or .png
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 }

@@ -81,10 +81,6 @@ public class CourseController {
         return courseRepository.save(course);
     }
 
-
-
-
-
     // Kurs löschen
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
@@ -126,7 +122,6 @@ public class CourseController {
         }).orElseThrow(() -> new RuntimeException("Course not found"));
     }
      */
-
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -185,8 +180,6 @@ public class CourseController {
         return savedCourse;
     }
 
-
-
     @GetMapping("/{id}/materials/download")
     public ResponseEntity<Resource> downloadMaterials(@PathVariable("id") Long id,
                                                       @AuthenticationPrincipal UserDetails userDetails) {
@@ -220,11 +213,6 @@ public class CourseController {
                 .body(resource);
     }
 
-
-
-
-
-
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{id}/materials/upload")
     public ResponseEntity<String> uploadMaterials(@PathVariable("id") Long id,
@@ -249,9 +237,4 @@ public class CourseController {
             return ResponseEntity.status(500).body("Fehler beim Hochladen: " + e.getMessage());
         }
     }
-
-
-
-
-
 }

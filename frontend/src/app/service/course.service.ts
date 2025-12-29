@@ -76,7 +76,14 @@ export class CourseService {
     return this.http.get<Certificate[]>(`${this.api}/certificates/me`);
   }
 
-  downloadCertificate(id: number): void {
+/*  downloadCertificate(id: number): void {
     window.location.href = `${this.api}/certificates/${id}/download`;
+  }*/
+  downloadCertificate(id: number) {
+    return this.http.get(
+      `${this.api}/certificates/${id}/download`,
+      { responseType: 'blob' }
+    );
   }
+
 }

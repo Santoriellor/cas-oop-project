@@ -40,7 +40,7 @@ import { Certificate, Course, CourseService, Enrollment } from '../service/cours
 
               <!-- Download Certificate -->
               <button *ngIf="hasCertificate(course.id!) && course.status === 'beendet'"
-                      (click)="downloadCertificate(course.id!)"
+                      (click)="downloadCert(course.id!)"
                       class="bg-yellow-500 text-white px-3 py-1 rounded text-sm">
                 Zertifikat
               </button>
@@ -88,10 +88,14 @@ export class CoursesListComponent implements OnInit {
     this.courseService.downloadMaterials(courseId);
   }
 
-  downloadCertificate(courseId: number) {
-    const cert = this.myCertificates.find(c => c.course.id === courseId);
-    if (cert) {
-      this.courseService.downloadCertificate(cert.id!);
-    }
+  downloadCert(id: number) {
+    this.courseService.downloadCertificate(id).subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `certificate-${id}.pdf`; // or .png
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 }
