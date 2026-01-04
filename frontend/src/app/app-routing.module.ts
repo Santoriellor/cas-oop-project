@@ -10,6 +10,9 @@ import {AdminDashboardComponent} from "./admindashboard/admin-dashboard.componen
 import {UserDashboardComponent} from "./userdashboard/user-dashboard.component";
 import {CoursesListComponent} from "./courseslist/courses-list.component";
 
+import { CourseDocumentsComponent} from "./course-documents/course-documents";
+
+
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -28,8 +31,13 @@ const routes: Routes = [
       // future pages here...
     ]
   },
+  {
+    path: 'courses/:courseId/documents',
+    component: CourseDocumentsComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: '**', redirectTo: '/login' }, // 🔁 Wildcard fallback
 
-  { path: '**', redirectTo: '/login' } // 🔁 Wildcard fallback
 ];
 
 @NgModule({
