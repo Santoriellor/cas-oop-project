@@ -32,7 +32,9 @@ import { AuthService } from '../service/auth.service';
             </div>
           </div>
 
-          <form class="stack" (ngSubmit)="register()">
+          <form class="stack">
+           <!-- (ngSubmit)="register()" -->
+
 
             <!-- Email -->
             <div class="field">
@@ -140,8 +142,13 @@ import { AuthService } from '../service/auth.service';
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width:100%; justify-content: center;"
-                    [disabled]="!canSubmit()">
+            <button
+              type="button"
+              class="btn btn-primary"
+              style="width:100%; justify-content: center;"
+              [disabled]="!canSubmit()"
+              (click)="register()"
+              >
               Konto erstellen
             </button>
 
@@ -176,6 +183,7 @@ export class RegisterComponent {
   constructor(private auth: AuthService, private router: Router) {}
 
   register() {
+    console.log('REGISTER Clicked');
     this.auth.register(this.email, this.username, this.password, this.isUser, this.isAdmin).subscribe({
       next: () => {
         this.message = 'Inscription réussie. Vous pouvez vous connecter.';
