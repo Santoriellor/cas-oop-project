@@ -1,0 +1,21 @@
+<div class="p-4">
+  <h2 class="text-xl font-bold mb-4">Kursdokumente</h2>
+
+  <div *ngIf="loading">Lädt...</div>
+
+  <div *ngIf="error" class="text-red-600 mb-3">
+    {{ error }}
+  </div>
+
+  <ul *ngIf="!loading && !error && documents.length > 0">
+    <li *ngFor="let doc of documents">
+      {{ doc.filename }}
+      <span class="text-sm text-gray-500">({{ doc.contentType }})</span>
+    </li>
+  </ul>
+
+  <div *ngIf="!loading && !error && documents.length === 0">
+    Keine Dokumente vorhanden.
+  </div>
+</div>
+
