@@ -257,3 +257,73 @@ body {
   font-weight: 700;
 }
 .link:hover { text-decoration: underline; }
+
+
+/* Register: Input mit Status + Suffix*/
+
+.input-wrap{
+  position:relative;
+}
+
+.input-suffix{
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* grün/rot Rahmen */
+.input--ok{ border-color: rgba(22,163,74,.6) !important }
+.input--bad{ border-color: rgba(239,68,68,.65) !important }
+
+/* Checkbox look */
+.check{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+
+.check input{
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+}
+
+/* Password strength meter */
+.pw-meter { margin-top: 10px; }
+.pw-meter__row{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.pw-meter__lable{font-size: 13px;
+}
+
+.pw-meter__bar{
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.pw-meter__fill{
+  display: block;
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  transition: width .2s ease;
+}
+
+/* Farbe je Stärke */
+.meter--empty .pw-meter__fill{ width: 0%; background: #e5e7eb;}
+.meter--weak .pw-meter__fill{ background: var(--danger)}
+.meter--medium .pw-meter__fill{ background: var(--warning)}
+.meter--strong .pw-meter__fill{ background: var(--success)}
+
+

@@ -5,96 +5,158 @@ import { AuthService } from '../service/auth.service';
 @Component({
   selector: 'app-register',
   template: `
-  <div class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-    <div class="w-full max-w-md">
-      <div class="bg-white shadow-lg rounded-xl p-8">
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-2xl font-semibold text-gray-800">Create account</h2>
-          <app-connection-status></app-connection-status>
-        </div>
-
-        <div class="space-y-4">
-          <!-- Email -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1" for="email">Email</label>
-            <div class="relative">
-              <input id="email" [(ngModel)]="email" (ngModelChange)="onEmailChange($event)" type="email" autocomplete="email"
-                     [ngClass]="{
-                        'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500': usernameAvailable === null,
-                        'border-green-500 focus:border-green-600 focus:ring-green-600': usernameAvailable === true,
-                        'border-red-500 focus:border-red-600 focus:ring-red-600': usernameAvailable === false
-                      }"
-                     class="block w-full rounded-lg shadow-sm pr-20 p-2"
-                     placeholder="you@example.com" />
-              <span *ngIf="email && checkingEmail" class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">Checking…</span>
-              <span *ngIf="email && !checkingEmail && emailAvailable === true" class="absolute right-2 top-1/2 -translate-y-1/2 text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700 border border-green-200">Available</span>
-              <span *ngIf="email && !checkingEmail && emailAvailable === false" class="absolute right-2 top-1/2 -translate-y-1/2 text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700 border border-red-200">Taken</span>
-            </div>
-            <p class="text-xs text-gray-500 mt-1">We'll never share your email.</p>
-          </div>
-
-          <!-- Username -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1" for="username">Username</label>
-            <div class="relative">
-              <input id="username" [(ngModel)]="username" (ngModelChange)="onUsernameChange($event)" type="text" autocomplete="username"
-                     [ngClass]="{
-                        'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500': usernameAvailable === null,
-                        'border-green-500 focus:border-green-600 focus:ring-green-600': usernameAvailable === true,
-                        'border-red-500 focus:border-red-600 focus:ring-red-600': usernameAvailable === false
-                      }"
-                     class="block w-full rounded-lg shadow-sm pr-20 p-2"
-                     placeholder="yourname" />
-              <span *ngIf="username && checkingUsername" class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">Checking…</span>
-              <span *ngIf="username && !checkingUsername && usernameAvailable === true" class="absolute right-2 top-1/2 -translate-y-1/2 text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700 border border-green-200">Available</span>
-              <span *ngIf="username && !checkingUsername && usernameAvailable === false" class="absolute right-2 top-1/2 -translate-y-1/2 text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700 border border-red-200">Taken</span>
-            </div>
-          </div>
-
-          <!-- Password -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1" for="password">Password</label>
-            <input id="password" [(ngModel)]="password" type="password" autocomplete="new-password"
-                   class="block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm p-2"
-                   placeholder="••••••••" />
-            <p class="text-xs text-gray-500 mt-1">Use at least 8 characters.</p>
-          </div>
-
-          <!-- Roles -->
-          <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700">Register as:</label>
-            <div class="flex items-center gap-6">
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" [(ngModel)]="isUser" class="rounded text-indigo-600 focus:ring-indigo-500" />
-                <span class="text-sm text-gray-700">User</span>
-              </label>
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" [(ngModel)]="isAdmin" class="rounded text-indigo-600 focus:ring-indigo-500" />
-                <span class="text-sm text-gray-700">Admin</span>
-              </label>
-            </div>
-            <p *ngIf="!isUser && !isAdmin" class="text-xs text-red-500">Please select at least one role.</p>
-          </div>
-
-          <button (click)="register()" [disabled]="!canSubmit()"
-                  class="w-full inline-flex justify-center items-center rounded-lg py-2.5 font-medium transition
-                         text-white bg-indigo-600 enabled:hover:bg-indigo-700 enabled:focus:outline-none enabled:focus:ring-2 enabled:focus:ring-indigo-500 enabled:focus:ring-offset-2
-                         disabled:opacity-50 disabled:cursor-not-allowed">
-            Create account
-          </button>
-
-          <div *ngIf="message" class="rounded-md bg-blue-50 border border-blue-200 p-3">
-            <p class="text-sm text-blue-700">{{message}}</p>
-          </div>
-        </div>
+    <header class="topbar topbar--auth">
+      <div class="topbar__inner" style="justify-content: center;">
+        <a class="brand" routerLink="/login" aria-label="Zur Startseite">
+          <img class="brand__logo brand__logo--auth" src="/assets/logo.png" alt="ReTrainEd">
+        </a>
       </div>
+    </header>
 
-      <p class="text-center text-sm text-gray-600 mt-4">
-        Already have an account?
-        <a routerLink="/login" class="text-indigo-600 hover:text-indigo-500 font-medium">Login</a>
-      </p>
+    <div class="auth-page">
+      <div class="auth-shell">
+
+        <section class="auth-hero">
+          <h1 class="auth-hero__title">CAS Fortbildung</h1>
+          <p class="auth-hero__text">
+            Konto erstellen und direkt Kurse buchen, Unterlagen laden und Zertifikate erhalten.
+          </p>
+        </section>
+
+        <section class="card card--padded auth-card">
+          <div class="row" style="justify-content: space-between;">
+            <h2 class="auth-card__title">Registrieren</h2>
+
+            <div class="net-pill">
+              <app-connection-status></app-connection-status>
+            </div>
+          </div>
+
+          <form class="stack" (ngSubmit)="register()">
+
+            <!-- Email -->
+            <div class="field">
+              <label class="label" for="email">E-Mail</label>
+
+              <div class="input-wrap">
+                <input
+                  id="email"
+                  class="input"
+                  [(ngModel)]="email"
+                  name="email"
+                  (ngModelChange)="onEmailChange($event)"
+                  type="email"
+                  autocomplete="email"
+                  placeholder="you@example.com"
+                  required
+                  [class.input--ok]="email && !checkingEmail && emailAvailable === true"
+                  [class.input--bad]="email && !checkingEmail && emailAvailable === false"
+                />
+
+                <span *ngIf="email && checkingEmail" class="input-suffix subtle">Prüfe...</span>
+                <span *ngIf="email && !checkingEmail && emailAvailable === true" class="badge badge--open input-suffix">Frei</span>
+                <span *ngIf="email && !checkingEmail && emailAvailable === false" class="badge badge--done input-suffix">Belegt</span>
+              </div>
+
+              <p class="subtle" style="margin:6px 0 0;">Wir teilen deine E-Mail nie mit Dritten.</p>
+            </div>
+
+            <!-- Username -->
+            <div class="field">
+              <label class="label" for="username">Benutzername</label>
+
+              <div class="input-wrap">
+                <input
+                  id="username"
+                  class="input"
+                  [(ngModel)]="username"
+                  name="username"
+                  (ngModelChange)="onUsernameChange($event)"
+                  type="text"
+                  autocomplete="username"
+                  placeholder="z.B. m.mueller"
+                  required
+                  [class.input--ok]="username && !checkingUsername && usernameAvailable === true"
+                  [class.input--bad]="username && !checkingUsername && usernameAvailable === false"
+                />
+
+
+                <span *ngIf="username && checkingUsername" class="input-suffix subtle">Prüfe...</span>
+                <span *ngIf="username && !checkingUsername && usernameAvailable === true" class="badge badge--open input-suffix">Frei</span>
+                <span *ngIf="username && !checkingUsername && usernameAvailable === false" class="badge badge--done input-suffix">Belegt</span>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="field">
+              <label class="label" for="password">Password</label>
+              <input
+                id="password"
+                class="input"
+                [(ngModel)]="password"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                placeholder="••••••••"
+                required
+              />
+              <p class="subtle" style="margin:6px 0 0;">Mindestens 8 Zeichen empfohlen</p>
+            </div>
+
+            <div class="pw-meter">
+              <div class="pw-meter__row">
+                <span class="subtle">Passwortstärke</span>
+                <strong class="pw-meter__label">{{ passwordStrengthLabel }}</strong>
+              </div>
+
+              <div class="pw-meter__bar" [ngClass]="passwordStrengthClass"
+                    role="status" aria-live="polite">
+                <span class="pw-meter__fill" [style.width.%]="(passwordScore / 5) * 100"></span>
+              </div>
+
+              <p class="subtle" style="margin:6px 0 0;">
+                Tipp: 12+ Zeichen, Gross-/Kleinbuchstaben, Zahl & Sonderzeichen.
+              </p>
+            </div>
+
+            <!-- Roles -->
+            <div class="field">
+              <label class="label">Registrieren als</label>
+
+              <div class="row" style="gap:18px; flex-wrap:wrap">
+                <label class="check">
+                  <input type="checkbox" [(ngModel)]="isUser" name="isUser" />
+                  <span>User</span>
+                </label>
+
+                <label class="check">
+                  <input type="checkbox" [(ngModel)]="isAdmin" name="isAdmin" />
+                  <span>Admin</span>
+                </label>
+              </div>
+
+              <div *ngIf="!isUser && !isAdmin" class="alert alert--danger">
+                Bitte mindestens eine Rolle auswählen.
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; justify-content: center;"
+                    [disabled]="!canSubmit()">
+              Konto erstellen
+            </button>
+
+            <div *ngIf="message" class="alert" style="background: rgba(37,99,235,.08); border-color: rgba(37,99,235,.25); color:#1e3a8a;">
+              {{ message }}
+            </div>
+          </form>
+
+          <p class="subtle" style="margin: 14px 0 0 ; font-size: 14px;">
+            Bereits ein Konto?
+            <a routerLink="/login" class="link">Anmelden</a>
+          </p>
+        </section>
+      </div>
     </div>
-  </div>
   `
 })
 export class RegisterComponent {
@@ -154,6 +216,40 @@ export class RegisterComponent {
   }
 
   canSubmit(): boolean {
-    return !!this.email && !!this.username && !!this.password && this.emailAvailable === true && this.usernameAvailable === true && (this.isUser || this.isAdmin);
+    return !!this.email && !!this.username && !!this.password && this.emailAvailable === true && this.usernameAvailable === true && (this.isUser || this.isAdmin) && this.passwordScore >= 3;
+  }
+
+  get passwordScore(): number
+  {
+    const p = this.password || '';
+    let score = 0;
+
+    if (p.length >= 8) score++;
+    if (p.length >= 12) score++;
+    if (/[A-Z]/.test(p)) score++;
+    if (/[0-9]/.test(p)) score++;
+    if (/[^A-Za-z0-9]/.test(p)) score++;
+
+    // Score 0-5
+    return score;
+  }
+
+  get passwordStrengthLabel(): string {
+    const s = this.passwordScore;
+    if (!this.password) return '-';
+    if (s <= 2) return 'Schwach';
+    if (s <= 4) return 'Mittel';
+    return 'Stark';
+  }
+
+  get passwordStrengthClass(): string {
+    const s = this.passwordScore;
+    if (!this.password) return 'meter--empty';
+    if (s <= 2) return 'meter--weak';
+    if (s <= 4) return 'meter--medium';
+    return 'meter--strong';
   }
 }
+
+
+
