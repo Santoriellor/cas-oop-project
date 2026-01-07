@@ -327,3 +327,103 @@ body {
 .meter--strong .pw-meter__fill{ background: var(--success)}
 
 
+/*----- App Layout (Sidebar + Content) ------*/
+
+.app-layout {
+  display: flex;
+  min-height: calc(100vh - 64px);
+}
+
+/*Sidebar*/
+.sidebar {
+  width: 260px;
+  background: #0f172a;
+  color: #fff;
+  border-right: 1px solid rgba(255,255,255,.08);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  position: fixed;
+  top: 64px;
+  left: 0;
+  bottom: 0;
+  transform: translateX(-100%);
+  transition: transform .25s ease;
+  z-index: 40;
+}
+
+.sidebar--open {
+  transform: translateX(0);
+}
+
+.sidebar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sidebar__close {
+  border: 1px solid rgba(255,255,255,.22);
+  background: transparent;
+  color: #fff;
+  border-radius: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.sidebar__nav {
+  display:flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar__link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: rgba(255,255,255,.92);
+  font-weight: 700;
+  transition: background .15s ease, transform .05s ease;
+}
+
+.sidebar__link:hover {
+  background: rgba(255,255,255,.08);
+}
+
+.sidebar__link:active {
+  transform: translateY(1px);
+}
+
+.sidebar__link--active {
+  background: rgba(37,99,235,.25);
+  border: 1px solid rgba(37,99,235,.35);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,.45);
+  z-index: 35;
+}
+
+.app-content {
+  flex: 1;
+  padding: 24px;
+}
+
+@media (min-width: 900px) {
+  .sidebar {
+    position: static;
+    transform: none;
+    z-index: auto;
+  }
+
+  .sidebar__close,
+  .sidebar-overlay {
+    display: none;
+  }
+}

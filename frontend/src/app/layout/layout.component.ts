@@ -16,7 +16,7 @@ import { AuthService } from '../service/auth.service';
               </span>
             </a>
 
-            <button class="icon-btn md:hidden" (click)="toggleSidebar()" aria-label="Menü öffnen">
+            <button class="icon-btn" (click)="toggleSidebar()" aria-label="Menü öffnen">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
@@ -57,43 +57,44 @@ import { AuthService } from '../service/auth.service';
         </div>
       </header>
 
-      <div class="flex flex-1 overflow-hidden">
-        <!-- Sidebar -->
-        <aside
-          [class.translate-x-0]="sidebarOpen"
-          [class.-translate-x-full]="!sidebarOpen"
-          class="fixed z-20 inset-y-0 left-0 w-64 bg-gray-800 text-white p-4 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-auto"
-        >
-          <div class="flex items-center justify-between mb-6 md:hidden">
-            <h2 class="text-xl font-semibold">Sidebar</h2>
-            <button class="text-gray-300" (click)="toggleSidebar()">✕</button>
+      <div class="app-layout">
+
+        <aside class="sidebar" [class.sidebar--open]="sidebarOpen">
+          <div class="sidebar__header">
+            <h2 class="sidebar__title">Navigation</h2>
+            <button class="sidebar__close" type="button" (click)="toggleSidebar()">X</button>
           </div>
-          <nav class="flex flex-col gap-2">
-            <a routerLink="/welcome" class="hover:bg-gray-700 p-2 rounded">Welcome</a>
-            <a *ngIf="isUser()" routerLink="/userdashboard" class="hover:bg-gray-700 p-2 rounded text-blue-400">User Dashboard</a>
-            <a routerLink="/courses" class="hover:bg-gray-700 p-2 rounded">Kurse</a>
-            <a *ngIf="isAdmin()" routerLink="/admin" class="hover:bg-gray-700 p-2 rounded text-yellow-400">Admin Dashboard</a>
+
+          <nav class="sidebar__nav">
+            <a routerLink="/welcome"
+            routerLinkActive="sidebar__link--active"
+            class="sidebar__link">Welcome</a>
+
+            <a *ngIf="isUser()"
+            routerLink="/welcome"
+            routerLinkActive="sidebar__link--active"
+            class="sidebar__link">User Dashboard</a>
+
+            <a routerLink="/courses"
+            routerLinkActive="sidebar__link--active"
+            class="sidebar__link">Kurse</a>
+
+            <a *ngIf="isAdmin()"
+               routerLink="/admin"
+               routerLinkActive="sidebar__link--active"
+               class="sidebar__link">Admin</a>/
           </nav>
         </aside>
 
-        <!-- Overlay for mobile sidebar -->
-        <div
-          class="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden"
-          *ngIf="sidebarOpen"
-          (click)="toggleSidebar()"
-        ></div>
+        <div class="sidebar-overlay" *ngIf="sidebarOpen" (click)="toggleSidebar()"></div>
 
-        <!-- Page content -->
-        <main class="flex-1 p-6 overflow-auto">
+        <main class="app-content">
           <router-outlet></router-outlet>
         </main>
       </div>
+
     </div>
   `,
-  styles: [`
-    /* Smooth transform for sidebar */
-    aside { min-height: calc(100vh - 64px); }
-  `]
 })
 export class LayoutComponent {
   sidebarOpen = false;
