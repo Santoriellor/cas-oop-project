@@ -1,0 +1,49 @@
+<div class="bg-white shadow rounded-xl p-6">
+  <h2 class="text-xl font-semibold mb-2">Verfügbare Kurse</h2>
+
+  <ul class="space-y-4">
+    <li *ngFor="let course of courses" class="border border-slate-200 p-4 rounded-xl shadow-sm">
+      <div class="flex justify-between items-center">
+        <div>
+          <span class="font-bold text-lg">{{ course.name }}</span>
+          <span class="ml-2 text-slate-600">({{ course.date }})</span>
+          <span class="ml-2 px-2.5 py-1 rounded-full text-xs font-bold"
+                [ngClass]="{'bg-green-100 text-green-800': course.status === 'offen',
+                           'bg-blue-100 text-blue-800': course.status === 'laufend',
+                           'bg-red-100 text-red-800': course.status === 'beendet'}">
+            {{ course.status }}
+          </span>
+        </div>
+
+        <div class="flex gap-2">
+          <!-- Enroll Button -->
+          <button *ngIf="!isEnrolled(course.id!) && course.status !== 'beendet'"
+                  (click)="enroll(course.id!)"
+                  class="bg-indigo-600 text-white px-3.5 py-1.5 rounded-xl text-sm font-semibold cursor-pointer hover:bg-indigo-700 transition-colors">
+            Anmelden
+          </button>
+          <span *ngIf="isEnrolled(course.id!)" class="text-green-600 font-bold text-sm">Angemeldet</span>
+          <span *ngIf="!isEnrolled(course.id!) && course.status === 'beendet'" class="text-slate-400 text-sm italic">Beendet</span>
+
+          <!-- Download Materials -->
+          <button *ngIf="isEnrolled(course.id!) && course.materials"
+                  (click)="downloadMaterials(course.id!)"
+                  class="bg-slate-200 text-slate-800 px-3.5 py-1.5 rounded-xl text-sm font-semibold cursor-pointer hover:bg-slate-300 transition-colors">
+            Unterlagen
+          </button>
+
+          <!-- Download Certificate -->
+          <button *ngIf="hasCertificate(course.id!) && course.status === 'beendet'"
+                  (click)="downloadCert(course.id!)"
+                  class="bg-amber-500 text-white px-3.5 py-1.5 rounded-xl text-sm font-semibold cursor-pointer hover:bg-amber-600 transition-colors">
+            Zertifikat
+          </button>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <div *ngIf="courses.length === 0" class="text-center text-slate-500 py-12 italic">
+    Keine Kurse verfügbar.
+  </div>
+</div>

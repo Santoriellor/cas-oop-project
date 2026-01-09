@@ -1,0 +1,5 @@
+<div class="bg-white shadow rounded-xl p-6 max-w-3xl mx-auto">
+  <h2 class="text-xl font-semibold mb-2">Welcome!</h2>
+  <p *ngIf="user">Glad to see you back, {{ user.username }}.</p>
+  <p *ngIf="!user && loading">Loading your profile…</p>
+</div>

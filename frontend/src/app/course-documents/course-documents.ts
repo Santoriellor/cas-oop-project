@@ -7,6 +7,7 @@ import { CourseDocumentDto} from "../model/document.models";
 @Component({
   selector: 'app-course-documents',
   templateUrl: './course-documents.html',
+  styleUrls: ['./course-documents.scss']
 })
 export class CourseDocumentsComponent implements OnInit {
 

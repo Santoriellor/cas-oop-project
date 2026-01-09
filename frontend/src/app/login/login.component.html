@@ -1,0 +1,75 @@
+<div class="min-h-screen flex flex-col">
+  <header class="sticky top-0 z-30 h-16 bg-white border-b border-slate-200 mb-6">
+    <div class="max-w-[1100px] mx-auto px-6 h-full flex items-center justify-center gap-4">
+      <a class="inline-flex items-center gap-2.5 no-underline" routerLink="/login">
+        <img class="h-[70px] w-auto object-contain block" src="/assets/logo.png" alt="ReTrainEd">
+      </a>
+    </div>
+  </header>
+
+  <div class="min-h-[calc(100vh-64px)]">
+    <div class="max-w-[520px] mx-auto">
+
+      <section class="mb-4">
+        <h1 class="text-[28px] font-bold mt-4">CAS Fortbildungen</h1>
+        <p class="">
+          Moderne Schulung für Physiotherapeut:innen - Kurse buchen, Unterlagen laden, Zertifikate erhalten.
+        </p>
+      </section>
+
+      <section class="bg-white border border-slate-200 rounded-[14px] shadow-sm p-5">
+        <div class="flex gap-4 items-center justify-between">
+          <h2 class="text-[22px] font-bold m-0">Anmelden</h2>
+
+          <div class="text-[12px] opacity-60">
+            <app-connection-status></app-connection-status>
+          </div>
+        </div>
+
+        <form class="flex flex-col gap-4 mt-4" (ngSubmit)="login()">
+          <div class="flex flex-col gap-2">
+            <label class="text-[13px] font-semibold text-slate-900" for="email">E-Mail</label>
+            <input
+              id="email"
+              class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-blue-600/55 focus:ring-4 focus:ring-blue-600/10"
+              [(ngModel)]="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label class="text-[13px] font-semibold text-slate-900" for="password">Passwort</label>
+            <input
+              id="password"
+              class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-blue-600/55 focus:ring-4 focus:ring-blue-600/10"
+              [(ngModel)]="password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+
+          <button type="submit" class="border border-transparent rounded-xl px-3.5 py-2.5 font-semibold cursor-pointer inline-flex items-center gap-2.5 transition-all active:translate-y-[1px] bg-blue-600 text-white shadow-[0_8px_18px_rgba(37,99,235,0.25)] text-sm hover:-translate-y-[1px] w-full justify-center">
+            Login
+          </button>
+
+          <div *ngIf="error" class="rounded-xl p-3 border border-red-500/25 bg-red-500/10 text-red-800">
+            {{ error }}
+          </div>
+        </form>
+
+        <p class="text-slate-500 text-sm mt-3.5">
+          Noch kein Konto?
+          <a routerLink="/register" class="text-blue-600 no-underline font-bold hover:underline">Registrieren</a>
+        </p>
+      </section>
+
+    </div>
+  </div>
+</div>
