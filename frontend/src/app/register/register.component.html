@@ -1,0 +1,164 @@
+<div class="min-h-screen flex flex-col">
+  <header class="sticky top-0 z-30 h-16 bg-white border-b border-slate-200 mb-6">
+    <div class="max-w-[1100px] mx-auto px-6 h-full flex items-center justify-center gap-4">
+      <a class="inline-flex items-center gap-2.5 no-underline" routerLink="/login" aria-label="Zur Startseite">
+        <img class="h-[70px] w-auto object-contain block" src="/assets/logo.png" alt="ReTrainEd">
+      </a>
+    </div>
+  </header>
+
+  <div class="min-h-[calc(100vh-64px)] pb-12">
+    <div class="max-w-[520px] mx-auto">
+
+      <section class="mb-4">
+        <h1 class="text-[28px] font-bold mt-4">CAS Fortbildung</h1>
+        <p class="">
+          Konto erstellen und direkt Kurse buchen, Unterlagen laden und Zertifikate erhalten.
+        </p>
+      </section>
+
+      <section class="bg-white border border-slate-200 rounded-[14px] shadow-sm p-5">
+        <div class="flex gap-4 items-center justify-between">
+          <h2 class="text-[22px] font-bold m-0">Registrieren</h2>
+
+          <div class="text-[12px] opacity-60">
+            <app-connection-status></app-connection-status>
+          </div>
+        </div>
+
+        <form class="flex flex-col gap-4 mt-4">
+          <!-- Email -->
+          <div class="flex flex-col gap-2">
+            <label class="text-[13px] font-semibold text-slate-900" for="email">E-Mail</label>
+
+            <div class="relative">
+              <input
+                id="email"
+                class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-blue-600/55 focus:ring-4 focus:ring-blue-600/10"
+                [(ngModel)]="email"
+                name="email"
+                (ngModelChange)="onEmailChange($event)"
+                type="email"
+                autocomplete="email"
+                placeholder="you@example.com"
+                required
+                [ngClass]="{
+                  'border-green-600/60': email && !checkingEmail && emailAvailable === true,
+                  'border-red-600/65': email && !checkingEmail && emailAvailable === false
+                }"
+              />
+
+              <span *ngIf="email && checkingEmail" class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 text-sm">Prüfe...</span>
+              <span *ngIf="email && !checkingEmail && emailAvailable === true" class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[12px] font-bold px-2.5 py-1 rounded-full border border-green-600/25 bg-green-600/10 text-green-600">Frei</span>
+              <span *ngIf="email && !checkingEmail && emailAvailable === false" class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[12px] font-bold px-2.5 py-1 rounded-full border border-red-600/25 bg-red-600/10 text-red-600">Belegt</span>
+            </div>
+
+            <p class="text-slate-500 text-[13px] mt-1.5">Wir teilen deine E-Mail nie mit Dritten.</p>
+          </div>
+
+          <!-- Username -->
+          <div class="flex flex-col gap-2">
+            <label class="text-[13px] font-semibold text-slate-900" for="username">Benutzername</label>
+
+            <div class="relative">
+              <input
+                id="username"
+                class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-blue-600/55 focus:ring-4 focus:ring-blue-600/10"
+                [(ngModel)]="username"
+                name="username"
+                (ngModelChange)="onUsernameChange($event)"
+                type="text"
+                autocomplete="username"
+                placeholder="z.B. m.mueller"
+                required
+                [ngClass]="{
+                  'border-green-600/60': username && !checkingUsername && usernameAvailable === true,
+                  'border-red-600/65': username && !checkingUsername && usernameAvailable === false
+                }"
+              />
+
+              <span *ngIf="username && checkingUsername" class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 text-sm">Prüfe...</span>
+              <span *ngIf="username && !checkingUsername && usernameAvailable === true" class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[12px] font-bold px-2.5 py-1 rounded-full border border-green-600/25 bg-green-600/10 text-green-600">Frei</span>
+              <span *ngIf="username && !checkingUsername && usernameAvailable === false" class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[12px] font-bold px-2.5 py-1 rounded-full border border-red-600/25 bg-red-600/10 text-red-600">Belegt</span>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="flex flex-col gap-2">
+            <label class="text-[13px] font-semibold text-slate-900" for="password">Password</label>
+            <input
+              id="password"
+              class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-blue-600/55 focus:ring-4 focus:ring-blue-600/10"
+              [(ngModel)]="password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              placeholder="••••••••"
+              required
+            />
+            <p class="text-slate-500 text-[13px] mt-1.5">Mindestens 8 Zeichen empfohlen</p>
+          </div>
+
+          <div class="mt-2.5">
+            <div class="flex justify-between items-center mb-1.5">
+              <span class="text-slate-500 text-[13px]">Passwortstärke</span>
+              <strong class="text-[13px]">{{ passwordStrengthLabel }}</strong>
+            </div>
+
+            <div class="relative h-2.5 rounded-full bg-slate-200 overflow-hidden border border-slate-200"
+                  role="status" aria-live="polite">
+              <span class="block h-full rounded-full transition-all duration-200 ease-in-out"
+                    [class.bg-red-500]="passwordScore > 0 && passwordScore <= 2"
+                    [class.bg-amber-500]="passwordScore > 2 && passwordScore <= 4"
+                    [class.bg-green-600]="passwordScore > 4"
+                    [style.width.%]="(passwordScore / 5) * 100"></span>
+            </div>
+
+            <p class="text-slate-500 text-[13px] mt-1.5">
+              Tipp: 12+ Zeichen, Gross-/Kleinbuchstaben, Zahl & Sonderzeichen.
+            </p>
+          </div>
+
+          <!-- Roles -->
+          <div class="flex flex-col gap-2">
+            <label class="text-[13px] font-semibold text-slate-900">Registrieren als</label>
+
+            <div class="flex gap-[18px] flex-wrap items-center">
+              <label class="inline-flex items-center gap-2.5 select-none">
+                <input type="checkbox" [(ngModel)]="isUser" name="isUser" class="w-4 h-4 accent-blue-600" />
+                <span>User</span>
+              </label>
+
+              <label class="inline-flex items-center gap-2.5 select-none">
+                <input type="checkbox" [(ngModel)]="isAdmin" name="isAdmin" class="w-4 h-4 accent-blue-600" />
+                <span>Admin</span>
+              </label>
+            </div>
+
+            <div *ngIf="!isUser && !isAdmin" class="rounded-xl p-3 border border-red-500/25 bg-red-500/10 text-red-800">
+              Bitte mindestens eine Rolle auswählen.
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="border border-transparent rounded-xl px-3.5 py-2.5 font-semibold cursor-pointer inline-flex items-center gap-2.5 transition-all active:translate-y-[1px] bg-blue-600 text-white shadow-[0_8px_18px_rgba(37,99,235,0.25)] text-sm hover:-translate-y-[1px] w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+            [disabled]="!canSubmit()"
+            (click)="register()"
+            >
+            Konto erstellen
+          </button>
+
+          <div *ngIf="message" class="rounded-xl p-3 border border-blue-600/25 bg-blue-600/10 text-blue-900">
+            {{ message }}
+          </div>
+        </form>
+
+        <p class="text-slate-500 text-sm mt-3.5">
+          Bereits ein Konto?
+          <a routerLink="/login" class="text-blue-600 no-underline font-bold hover:underline">Anmelden</a>
+        </p>
+      </section>
+    </div>
+  </div>
+</div>

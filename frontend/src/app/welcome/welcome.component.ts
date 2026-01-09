@@ -4,13 +4,8 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-welcome',
-  template: `
-    <div class="bg-white shadow rounded p-6 max-w-3xl mx-auto">
-      <h2 class="text-2xl font-bold mb-4">Welcome!</h2>
-      <p *ngIf="user">Glad to see you back, {{ user.username }}.</p>
-      <p *ngIf="!user && loading">Loading your profile…</p>
-    </div>
-  `
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
   user: { username: string; email: string; roles: string[]; createdAt?: string; lastLogin?: string } | null = null;
