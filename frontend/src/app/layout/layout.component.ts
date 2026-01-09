@@ -71,7 +71,7 @@ import { AuthService } from '../service/auth.service';
             class="sidebar__link">Welcome</a>
 
             <a *ngIf="isUser()"
-            routerLink="/welcome"
+            routerLink="/userdashboard"
             routerLinkActive="sidebar__link--active"
             class="sidebar__link">User Dashboard</a>
 
