@@ -48,14 +48,17 @@ export class CourseService {
     return this.http.delete<void>(`${this.api}/courses/${id}`);
   }
 
-  uploadMaterials(id: number, file: File): Observable<string> {
+  /*uploadMaterials(id: number, file: File): Observable<string> {
     const formData = new FormData();
     formData.append('file', file);
     return this.http.post(`${this.api}/courses/${id}/materials/upload`, formData, { responseType: 'text' });
-  }
+  }*/
 
-  downloadMaterials(id: number): void {
-    window.location.href = `${this.api}/courses/${id}/materials/download`;
+  downloadMaterials(id: number): Observable<Blob> {
+    return this.http.get(
+      `${this.api}/courses/${id}/materials/download`,
+      { responseType: 'blob' }
+    );
   }
 
   // Enrollments
@@ -76,10 +79,7 @@ export class CourseService {
     return this.http.get<Certificate[]>(`${this.api}/certificates/me`);
   }
 
-/*  downloadCertificate(id: number): void {
-    window.location.href = `${this.api}/certificates/${id}/download`;
-  }*/
-  downloadCertificate(id: number) {
+  downloadCertificate(id: number): Observable<Blob> {
     return this.http.get(
       `${this.api}/certificates/${id}/download`,
       { responseType: 'blob' }

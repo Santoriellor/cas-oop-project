@@ -3,31 +3,39 @@
 
   <ul class="space-y-4">
     <li *ngFor="let course of courses" class="border border-slate-200 p-4 rounded-xl shadow-sm">
-      <div class="flex justify-between items-center">
-        <div>
-          <span class="font-bold text-lg">{{ course.name }}</span>
-          <span class="ml-2 text-slate-600">({{ course.date }})</span>
-          <span class="ml-2 px-2.5 py-1 rounded-full text-xs font-bold"
-                [ngClass]="{'bg-green-100 text-green-800': course.status === 'offen',
-                           'bg-blue-100 text-blue-800': course.status === 'laufend',
-                           'bg-red-100 text-red-800': course.status === 'beendet'}">
-            {{ course.status }}
-          </span>
+      <!-- Container: vertical layout -->
+      <div class="flex flex-col gap-3 w-full">
+        <!-- ROW 1: name/date/status | action -->
+        <div class="flex w-full justify-between items-center">
+          <!-- Left: course info -->
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-bold text-lg capitalize">{{ course.name }}</span>
+            <span class="ml-2 text-slate-600">({{ course.date }})</span>
+            <span class="ml-2 px-2.5 py-1 rounded-full text-xs font-bold"
+                  [ngClass]="{'bg-green-100 text-green-800': course.status === 'offen',
+                             'bg-blue-100 text-blue-800': course.status === 'laufend',
+                             'bg-red-100 text-red-800': course.status === 'beendet'}">
+              {{ course.status }}
+            </span>
+          </div>
+
+          <!-- Right: subscribe / status -->
+          <div class="flex items-center gap-2">
+            <!-- Enroll Button -->
+            <button *ngIf="!isEnrolled(course.id!) && course.status !== 'beendet'"
+                    (click)="enroll(course.id!)"
+                    class="bg-indigo-600 text-white px-3.5 py-1.5 rounded-xl text-sm font-semibold cursor-pointer hover:bg-indigo-700 transition-colors">
+              Anmelden
+            </button>
+            <span *ngIf="isEnrolled(course.id!)" class="text-green-600 font-bold text-sm">Angemeldet</span>
+            <span *ngIf="!isEnrolled(course.id!) && course.status === 'beendet'" class="text-slate-400 text-sm italic">Beendet</span>
+          </div>
         </div>
-
-        <div class="flex gap-2">
-          <!-- Enroll Button -->
-          <button *ngIf="!isEnrolled(course.id!) && course.status !== 'beendet'"
-                  (click)="enroll(course.id!)"
-                  class="bg-indigo-600 text-white px-3.5 py-1.5 rounded-xl text-sm font-semibold cursor-pointer hover:bg-indigo-700 transition-colors">
-            Anmelden
-          </button>
-          <span *ngIf="isEnrolled(course.id!)" class="text-green-600 font-bold text-sm">Angemeldet</span>
-          <span *ngIf="!isEnrolled(course.id!) && course.status === 'beendet'" class="text-slate-400 text-sm italic">Beendet</span>
-
+        <!-- ROW 2: downloads (full width, left aligned) -->
+        <div class="flex w-full items-center gap-2">
           <!-- Download Materials -->
           <button *ngIf="isEnrolled(course.id!) && course.materials"
-                  (click)="downloadMaterials(course.id!)"
+                  (click)="downloadMaterials(course!)"
                   class="bg-slate-200 text-slate-800 px-3.5 py-1.5 rounded-xl text-sm font-semibold cursor-pointer hover:bg-slate-300 transition-colors">
             Unterlagen
           </button>

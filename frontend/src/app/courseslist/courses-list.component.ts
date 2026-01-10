@@ -35,8 +35,15 @@ export class CoursesListComponent implements OnInit {
     return this.myCertificates.some(c => c.course.id === courseId);
   }
 
-  downloadMaterials(courseId: number) {
-    this.courseService.downloadMaterials(courseId);
+  downloadMaterials(course: Course) {
+    this.courseService.downloadMaterials(course.id!).subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${course.materials}`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 
   downloadCert(id: number) {
