@@ -1,0 +1,11 @@
+<div class="flex items-center gap-2 px-2 py-1 rounded border"
+     [ngClass]="(isConnected$ | async) ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'"
+     [title]="(isConnected$ | async) ? 'Backend reachable' : 'Backend unreachable'">
+  <span class="relative flex h-2 w-2">
+    <span *ngIf="isConnected$ | async" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+    <span class="relative inline-flex rounded-full h-2 w-2" [ngClass]="(isConnected$ | async) ? 'bg-green-500' : 'bg-red-500'"></span>
+  </span>
+  <span class="text-[10px] font-bold uppercase tracking-wider" [ngClass]="(isConnected$ | async) ? 'text-green-700' : 'text-red-700'">
+    {{ (isConnected$ | async) ? 'Online' : 'Offline' }}
+  </span>
+</div>
