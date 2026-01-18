@@ -1,3 +1,13 @@
+
+/**
+ * Host styling for the Courses List component.
+ *
+ * <p>
+ * The :host selector targets the root element of the component.
+ * Setting display to block ensures that the component
+ * behaves as a block-level container within the layout.
+ * </p>
+ */
 :host {
   display: block;
 }

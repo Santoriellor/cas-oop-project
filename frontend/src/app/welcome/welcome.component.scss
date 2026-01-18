@@ -1,3 +1,14 @@
+/**
+ * Host styling for the Welcome component.
+ *
+ * <p>
+ * This component relies primarily on Tailwind CSS
+ * utility classes for layout and visual appearance.
+ * The host element is explicitly rendered as a
+ * block-level element to ensure proper spacing
+ * within the layout.
+ * </p>
+ */
 :host {
   display: block;
 }

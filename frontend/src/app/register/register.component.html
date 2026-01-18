@@ -1,15 +1,23 @@
 <div class="min-h-screen flex flex-col">
+  <!-- ===================== -->
+  <!-- Header with logo -->
+  <!-- ===================== -->
   <header class="sticky top-0 z-30 h-16 bg-white border-b border-slate-200 mb-6">
     <div class="max-w-[1100px] mx-auto px-6 h-full flex items-center justify-center gap-4">
+      <!-- Logo linking back to login page -->
       <a class="inline-flex items-center gap-2.5 no-underline" routerLink="/login" aria-label="Zur Startseite">
         <img class="h-[70px] w-auto object-contain block" src="/assets/logo.png" alt="ReTrainEd">
       </a>
     </div>
   </header>
 
+  <!-- ===================== -->
+  <!-- Main content -->
+  <!-- ===================== -->
   <div class="min-h-[calc(100vh-64px)] pb-12">
     <div class="max-w-[520px] mx-auto">
 
+      <!-- Intro section -->
       <section class="mb-4">
         <h1 class="text-[28px] font-bold mt-4">CAS Fortbildung</h1>
         <p class="">
@@ -17,17 +25,25 @@
         </p>
       </section>
 
+      <!-- ===================== -->
+      <!-- Registration form -->
+      <!-- ===================== -->
       <section class="bg-white border border-slate-200 rounded-[14px] shadow-sm p-5">
         <div class="flex gap-4 items-center justify-between">
           <h2 class="text-[22px] font-bold m-0">Registrieren</h2>
 
+          <!-- Backend connection status indicator -->
           <div class="text-[12px] opacity-60">
             <app-connection-status></app-connection-status>
           </div>
         </div>
 
+        <!-- Registration form -->
         <form class="flex flex-col gap-4 mt-4">
-          <!-- Email -->
+
+          <!-- ===================== -->
+          <!-- Email input with availability check -->
+          <!-- ===================== -->
           <div class="flex flex-col gap-2">
             <label class="text-[13px] font-semibold text-slate-900" for="email">E-Mail</label>
 
@@ -48,6 +64,7 @@
                 }"
               />
 
+              <!-- Email availability feedback -->
               <span *ngIf="email && checkingEmail" class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 text-sm">Prüfe...</span>
               <span *ngIf="email && !checkingEmail && emailAvailable === true" class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[12px] font-bold px-2.5 py-1 rounded-full border border-green-600/25 bg-green-600/10 text-green-600">Frei</span>
               <span *ngIf="email && !checkingEmail && emailAvailable === false" class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[12px] font-bold px-2.5 py-1 rounded-full border border-red-600/25 bg-red-600/10 text-red-600">Belegt</span>
@@ -56,7 +73,9 @@
             <p class="text-slate-500 text-[13px] mt-1.5">Wir teilen deine E-Mail nie mit Dritten.</p>
           </div>
 
-          <!-- Username -->
+          <!-- ===================== -->
+          <!-- Username input with availability check -->
+          <!-- ===================== -->
           <div class="flex flex-col gap-2">
             <label class="text-[13px] font-semibold text-slate-900" for="username">Benutzername</label>
 
@@ -77,13 +96,16 @@
                 }"
               />
 
+              <!-- Username availability feedback -->
               <span *ngIf="username && checkingUsername" class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 text-sm">Prüfe...</span>
               <span *ngIf="username && !checkingUsername && usernameAvailable === true" class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[12px] font-bold px-2.5 py-1 rounded-full border border-green-600/25 bg-green-600/10 text-green-600">Frei</span>
               <span *ngIf="username && !checkingUsername && usernameAvailable === false" class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[12px] font-bold px-2.5 py-1 rounded-full border border-red-600/25 bg-red-600/10 text-red-600">Belegt</span>
             </div>
           </div>
 
-          <!-- Password -->
+          <!-- ===================== -->
+          <!-- Password input -->
+          <!-- ===================== -->
           <div class="flex flex-col gap-2">
             <label class="text-[13px] font-semibold text-slate-900" for="password">Password</label>
             <input
@@ -99,6 +121,9 @@
             <p class="text-slate-500 text-[13px] mt-1.5">Mindestens 8 Zeichen empfohlen</p>
           </div>
 
+          <!-- ===================== -->
+          <!-- Password strength indicator -->
+          <!-- ===================== -->
           <div class="mt-2.5">
             <div class="flex justify-between items-center mb-1.5">
               <span class="text-slate-500 text-[13px]">Passwortstärke</span>
@@ -119,7 +144,9 @@
             </p>
           </div>
 
-          <!-- Roles -->
+          <!-- ===================== -->
+          <!-- Role selection -->
+          <!-- ===================== -->
           <div class="flex flex-col gap-2">
             <label class="text-[13px] font-semibold text-slate-900">Registrieren als</label>
 
@@ -135,11 +162,13 @@
               </label>
             </div>
 
+            <!-- Role validation message -->
             <div *ngIf="!isUser && !isAdmin" class="rounded-xl p-3 border border-red-500/25 bg-red-500/10 text-red-800">
               Bitte mindestens eine Rolle auswählen.
             </div>
           </div>
 
+          <!-- Submit registration button -->
           <button
             type="button"
             class="border border-transparent rounded-xl px-3.5 py-2.5 font-semibold cursor-pointer inline-flex items-center gap-2.5 transition-all active:translate-y-[1px] bg-blue-600 text-white shadow-[0_8px_18px_rgba(37,99,235,0.25)] text-sm hover:-translate-y-[1px] w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
@@ -149,11 +178,13 @@
             Konto erstellen
           </button>
 
+          <!-- Success / info message -->
           <div *ngIf="message" class="rounded-xl p-3 border border-blue-600/25 bg-blue-600/10 text-blue-900">
             {{ message }}
           </div>
         </form>
 
+        <!-- Login link -->
         <p class="text-slate-500 text-sm mt-3.5">
           Bereits ein Konto?
           <a routerLink="/login" class="text-blue-600 no-underline font-bold hover:underline">Anmelden</a>

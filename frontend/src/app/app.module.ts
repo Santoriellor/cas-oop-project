@@ -15,7 +15,25 @@ import {UserDashboardComponent} from "./userdashboard/user-dashboard.component";
 import {CoursesListComponent} from "./courseslist/courses-list.component";
 import {ConnectionStatusComponent} from "./connection-status/connection-status.component";
 
+/**
+ * Root Angular module.
+ *
+ * <p>
+ * This module configures the core building blocks of the application:
+ * </p>
+ *
+ * <ul>
+ *   <li>Root and feature components</li>
+ *   <li>HTTP and form support</li>
+ *   <li>Routing configuration</li>
+ *   <li>Global HTTP interceptors</li>
+ * </ul>
+ */
 @NgModule({
+
+  /**
+   * Components that belong to this module.
+   */
   declarations: [
     AppComponent,
     LoginComponent,
@@ -26,17 +44,33 @@ import {ConnectionStatusComponent} from "./connection-status/connection-status.c
     UserDashboardComponent,
     CoursesListComponent
   ],
+
+  /**
+   * Imported Angular and application modules.
+   */
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
     CommonModule,
+
+    // Standalone component providing backend connection status
     ConnectionStatusComponent
   ],
+
+  /**
+   * Application-wide service providers.
+   */
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
+
+  /**
+   * Root component bootstrapped at application startup.
+   */
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  // Root module for the application
+}

@@ -1,3 +1,13 @@
+/**
+ * Host styling for the User Dashboard component.
+ *
+ * <p>
+ * The user dashboard relies primarily on Tailwind CSS
+ * utility classes for layout and visual styling.
+ * This minimal host configuration ensures the component
+ * is rendered as a block-level element.
+ * </p>
+ */
 :host {
   display: block;
 }

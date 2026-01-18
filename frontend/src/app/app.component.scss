@@ -1,3 +1,14 @@
+/**
+ * Root application component host styling.
+ *
+ * <p>
+ * The AppComponent serves as the root container
+ * for all routed views. This minimal host style
+ * ensures the component is rendered as a block-level
+ * element while layout and appearance are handled
+ * by child components and Tailwind CSS utilities.
+ * </p>
+ */
 :host {
   display: block;
 }
