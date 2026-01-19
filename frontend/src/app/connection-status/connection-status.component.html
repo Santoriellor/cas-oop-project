@@ -1,10 +1,26 @@
+<!--
+  Connection status indicator component.
+
+  Displays the current backend connection state using:
+  - Color-coded background and border
+  - Animated status dot when connected
+  - Textual online/offline label
+-->
 <div class="flex items-center gap-2 px-2 py-1 rounded border"
      [ngClass]="(isConnected$ | async) ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'"
      [title]="(isConnected$ | async) ? 'Backend reachable' : 'Backend unreachable'">
+
+  <!-- Status indicator dot -->
   <span class="relative flex h-2 w-2">
+
+    <!-- Animated ping effect when connection is active -->
     <span *ngIf="isConnected$ | async" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+
+    <!-- Solid status dot (green = online, red = offline) -->
     <span class="relative inline-flex rounded-full h-2 w-2" [ngClass]="(isConnected$ | async) ? 'bg-green-500' : 'bg-red-500'"></span>
   </span>
+
+  <!-- Connection status label -->
   <span class="text-[10px] font-bold uppercase tracking-wider" [ngClass]="(isConnected$ | async) ? 'text-green-700' : 'text-red-700'">
     {{ (isConnected$ | async) ? 'Online' : 'Offline' }}
   </span>

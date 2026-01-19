@@ -1,15 +1,23 @@
 <div class="min-h-screen flex flex-col">
+  <!-- ===================== -->
+  <!-- Header with application logo -->
+  <!-- ===================== -->
   <header class="sticky top-0 z-30 h-16 bg-white border-b border-slate-200 mb-6">
     <div class="max-w-[1100px] mx-auto px-6 h-full flex items-center justify-center gap-4">
+      <!-- Logo linking to the login page -->
       <a class="inline-flex items-center gap-2.5 no-underline" routerLink="/login">
         <img class="h-[70px] w-auto object-contain block" src="/assets/logo.png" alt="ReTrainEd">
       </a>
     </div>
   </header>
 
+  <!-- ===================== -->
+  <!-- Main content -->
+  <!-- ===================== -->
   <div class="min-h-[calc(100vh-64px)]">
     <div class="max-w-[520px] mx-auto">
 
+      <!-- Introductory section -->
       <section class="mb-4">
         <h1 class="text-[28px] font-bold mt-4">CAS Fortbildungen</h1>
         <p class="">
@@ -17,16 +25,23 @@
         </p>
       </section>
 
+      <!-- ===================== -->
+      <!-- Login form container -->
+      <!-- ===================== -->
       <section class="bg-white border border-slate-200 rounded-[14px] shadow-sm p-5">
+        <!-- Form header with connection status -->
         <div class="flex gap-4 items-center justify-between">
           <h2 class="text-[22px] font-bold m-0">Anmelden</h2>
 
+          <!-- Backend connection status indicator -->
           <div class="text-[12px] opacity-60">
             <app-connection-status></app-connection-status>
           </div>
         </div>
 
+        <!-- Login form -->
         <form class="flex flex-col gap-4 mt-4" (ngSubmit)="login()">
+          <!-- Email input field -->
           <div class="flex flex-col gap-2">
             <label class="text-[13px] font-semibold text-slate-900" for="email">E-Mail</label>
             <input
@@ -41,6 +56,7 @@
             />
           </div>
 
+          <!-- Password input field -->
           <div class="flex flex-col gap-2">
             <label class="text-[13px] font-semibold text-slate-900" for="password">Passwort</label>
             <input
@@ -55,15 +71,18 @@
             />
           </div>
 
+          <!-- Submit login button -->
           <button type="submit" class="border border-transparent rounded-xl px-3.5 py-2.5 font-semibold cursor-pointer inline-flex items-center gap-2.5 transition-all active:translate-y-[1px] bg-blue-600 text-white shadow-[0_8px_18px_rgba(37,99,235,0.25)] text-sm hover:-translate-y-[1px] w-full justify-center">
             Login
           </button>
 
+          <!-- Error message display -->
           <div *ngIf="error" class="rounded-xl p-3 border border-red-500/25 bg-red-500/10 text-red-800">
             {{ error }}
           </div>
         </form>
 
+        <!-- Registration link -->
         <p class="text-slate-500 text-sm mt-3.5">
           Noch kein Konto?
           <a routerLink="/register" class="text-blue-600 no-underline font-bold hover:underline">Registrieren</a>

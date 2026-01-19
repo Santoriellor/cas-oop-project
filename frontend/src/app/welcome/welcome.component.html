@@ -1,5 +1,18 @@
 <div class="bg-white shadow rounded-xl p-6 max-w-3xl mx-auto">
+  <!-- ===================== -->
+  <!-- Welcome header -->
+  <!-- ===================== -->
   <h2 class="text-xl font-semibold mb-2">Welcome!</h2>
+
+  <!-- ===================== -->
+  <!-- Personalized greeting -->
+  <!-- ===================== -->
+  <!-- Displayed once the user profile has been successfully loaded -->
   <p *ngIf="user">Glad to see you back, {{ user.username }}.</p>
+
+  <!-- ===================== -->
+  <!-- Loading state -->
+  <!-- ===================== -->
+  <!-- Shown while the user profile is still being fetched -->
   <p *ngIf="!user && loading">Loading your profile…</p>
 </div>

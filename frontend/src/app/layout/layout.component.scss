@@ -1,4 +1,12 @@
-/* Minimal styles if needed, but using Tailwind mostly */
+/**
+ * Host styling for the main layout component.
+ *
+ * <p>
+ * The layout relies primarily on Tailwind CSS utility classes
+ * for styling. These minimal styles ensure that the component
+ * behaves as a block-level container in the document flow.
+ * </p>
+ */
 :host {
   display: block;
 }

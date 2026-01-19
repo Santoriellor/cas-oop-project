@@ -1,3 +1,12 @@
+/**
+ * Host styling for the Course Documents component.
+ *
+ * <p>
+ * The :host selector targets the root element of the component.
+ * Setting display to block ensures that the component
+ * occupies its own vertical space within the layout.
+ * </p>
+ */
 :host {
   display: block;
 }
