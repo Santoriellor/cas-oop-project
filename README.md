@@ -22,3 +22,11 @@ To run the locally (development), Docker must be installed:
 - the first time `docker compose -f docker-compose.dev.yml up --build -d`
   (the backend might take a while to build the image and be ready)
 - once built `docker compose -f docker-compose.dev.yml up -d`
+
+To run the backend tests:
+- `docker compose -f docker-compose.dev.yml run --rm backend mvn test`
+- docker compose -f docker-compose.dev.yml run --rm backend mvn -Dtest=AuthControllerTest test
+  docker compose -f docker-compose.dev.yml run --rm backend mvn -Dtest=AuthControllerTest#testLoginSuccess test
+
+To run the frontend tests:
+- `docker compose -f docker-compose.dev.yml run --rm frontend npm test -- --watch=false`
