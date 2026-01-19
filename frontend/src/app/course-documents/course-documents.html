@@ -1,19 +1,27 @@
 <div class="p-4">
+  <!-- Section header -->
   <h2 class="text-xl font-semibold mb-2">Kursdokumente</h2>
 
+  <!-- Loading indicator -->
   <div *ngIf="loading">Lädt...</div>
 
+  <!-- Error message display -->
   <div *ngIf="error" class="text-red-600 mb-3">
     {{ error }}
   </div>
 
+  <!-- Document list -->
   <ul *ngIf="!loading && !error && documents.length > 0">
     <li *ngFor="let doc of documents">
+      <!-- Document filename -->
       {{ doc.filename }}
+
+      <!-- Document content type -->
       <span class="text-sm text-gray-500">({{ doc.contentType }})</span>
     </li>
   </ul>
 
+  <!-- Empty state when no documents are available -->
   <div *ngIf="!loading && !error && documents.length === 0">
     Keine Dokumente vorhanden.
   </div>

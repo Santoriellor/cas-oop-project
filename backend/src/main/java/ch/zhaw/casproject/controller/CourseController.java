@@ -28,32 +28,92 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * REST controller responsible for course management and related operations.
+ *
+ * <p>
+ * This controller provides endpoints for:
+ * <ul>
+ *   <li>Listing all available courses</li>
+ *   <li>Creating, updating, and deleting courses (ADMIN only)</li>
+ *   <li>Uploading and downloading course materials</li>
+ *   <li>Generating certificates when a course is completed</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * Access to administrative operations is restricted using role-based
+ * authorization via {@link PreAuthorize}.
+ * </p>
+ */
+
 @RestController
 @RequestMapping("/api/courses")
 public class CourseController {
 
+    /**
+     * Repository for accessing and persisting {@link Course} entities.
+     */
+
     @Autowired
     private CourseRepository courseRepository;
+
+    /**
+     * Repository for accessing {@link Enrollment} data.
+     */
 
     @Autowired
     private EnrollmentRepository enrollmentRepository;
 
+    /**
+     * Service responsible for generating certificate PDFs.
+     */
+
     @Autowired
     private CertificateService certificateService;
+
+    /**
+     * Repository for accessing and persisting {@link Certificate} entities.
+     */
 
     @Autowired
     private CertificateRepository certificateRepository;
 
+    /**
+     * Repository for accessing {@link User} data.
+     */
+
     @Autowired
     private UserRepository userRepository;
 
-    // Alle Kurse anzeigen
+    /**
+     * Returns a list of all courses.
+     *
+     * @return all available {@link Course} entities
+     */
+
     @GetMapping
     public List<Course> getAllCourses() {
         return courseRepository.findAll();
     }
 
-    // Kurs erstellen
+    /**
+     * Creates a new course (ADMIN only).
+     *
+     * <p>
+     * Supports optional upload of course materials using multipart form data.
+     * Uploaded files are stored on the server filesystem and the file path
+     * is saved with the course.
+     * </p>
+     *
+     * @param name the course name
+     * @param date the course date (ISO format)
+     * @param status the course status
+     * @param file optional course materials file
+     * @return the persisted {@link Course}
+     * @throws Exception if file handling or persistence fails
+     */
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Course createCourse(
@@ -63,11 +123,13 @@ public class CourseController {
             @RequestParam(value = "file", required = false) MultipartFile file
     ) throws Exception {
 
+        // Create and populate a new course entity
         Course course = new Course();
         course.setName(name);
         course.setDate(LocalDate.parse(date));
         course.setStatus(status);
 
+        // Handle optional materials upload
         if (file != null && !file.isEmpty()) {
             Path uploadDir = Paths.get("uploads");
             Files.createDirectories(uploadDir);
@@ -81,14 +143,36 @@ public class CourseController {
         return courseRepository.save(course);
     }
 
-    // Kurs löschen
+    /**
+     * Deletes a course by its ID (ADMIN only).
+     *
+     * @param id the course ID
+     */
+
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteCourse(@PathVariable("id") Long id) {
         courseRepository.deleteById(id);
     }
 
-    // Kurs bearbeiten / Status ändern
+    /**
+     * Updates a course and optionally its materials (ADMIN only).
+     *
+     * <p>
+     * If the course status changes to {@code "beendet"} (completed),
+     * certificates are generated for all enrolled users.
+     * Certificates are generated only once when the status transitions
+     * to completed.
+     * </p>
+     *
+     * @param id the course ID
+     * @param name the updated course name
+     * @param date the updated course date (ISO format)
+     * @param status the updated course status
+     * @param file optional updated materials file
+     * @return the updated {@link Course}
+     * @throws Exception if file handling or persistence fails
+     */
 
     /** gelöscht am 28.12.25
     @PutMapping("/{id}")
@@ -136,15 +220,15 @@ public class CourseController {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Kurs nicht gefunden"));
 
-        // Vorheriger Status merken
+        // Store the previous status to detect status transitions
         String previousStatus = course.getStatus();
 
-        // Neue Werte setzen
+        // Apply updated values
         course.setName(name);
         course.setDate(LocalDate.parse(date));
         course.setStatus(status);
 
-        // Material hochladen
+        // Upload updated materials if provided
         if (file != null && !file.isEmpty()) {
             Path uploadDir = Paths.get("uploads");
             Files.createDirectories(uploadDir);
@@ -157,21 +241,21 @@ public class CourseController {
 
         Course savedCourse = courseRepository.save(course);
 
-        // ⭐ Zertifikate erzeugen, nur wenn Status auf "beendet" gewechselt ist
+        // Generate certificates only if status has changed to "beendet"
         if (!"beendet".equalsIgnoreCase(previousStatus) && "beendet".equalsIgnoreCase(status)) {
             List<Enrollment> enrollments = enrollmentRepository.findAll().stream()
                     .filter(e -> e.getCourse().getId().equals(id))
                     .toList();
 
             for (Enrollment e : enrollments) {
-                // PDF erzeugen
+                // Generate certificate PDF
                 byte[] pdf = certificateService.generatePdf(e.getUser().getUsername(), course.getName());
 
-                // Certificate speichern
+                // Persist certificate metadata
                 Certificate cert = new Certificate();
                 cert.setCourse(course);
                 cert.setUser(e.getUser());
-                cert.setFilePath(null); // optional später Pfad/Byte[] speichern
+                cert.setFilePath(null); // optional: store path or byte[] later
                 certificateRepository.save(cert);
             }
         }
@@ -179,6 +263,18 @@ public class CourseController {
 
         return savedCourse;
     }
+
+    /**
+     * Downloads course materials for an enrolled user.
+     *
+     * <p>
+     * Access is restricted to users who are enrolled in the course.
+     * </p>
+     *
+     * @param id the course ID
+     * @param userDetails the authenticated user
+     * @return the course materials as a downloadable resource
+     */
 
     @GetMapping("/{id}/materials/download")
     public ResponseEntity<Resource> downloadMaterials(@PathVariable("id") Long id,
@@ -189,7 +285,7 @@ public class CourseController {
         User user = userRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User nicht gefunden"));
 
-        // Prüfen: User ist für den Kurs angemeldet
+        // Verify that the user is enrolled in the course
         boolean enrolled = enrollmentRepository.findByUserId(user.getId()).stream()
                 .anyMatch(e -> e.getCourse().getId().equals(id));
 
@@ -212,6 +308,14 @@ public class CourseController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
     }
+
+    /**
+     * Uploads or replaces course materials (ADMIN only).
+     *
+     * @param id the course ID
+     * @param file the materials file to upload
+     * @return a success or error message
+     */
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{id}/materials/upload")

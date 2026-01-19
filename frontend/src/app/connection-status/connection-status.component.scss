@@ -1,3 +1,12 @@
+/**
+ * Host styling for the Connection Status component.
+ *
+ * <p>
+ * The :host selector targets the root element of the component.
+ * Defining display as block ensures proper layout behavior
+ * when the component is embedded in toolbars or headers.
+ * </p>
+ */
 :host {
   display: block;
 }
