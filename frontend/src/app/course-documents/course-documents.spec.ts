@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 import { CourseDocumentsComponent } from './course-documents';
+import { DocumentService } from '../service/document.service';
 
 /**
  * Unit tests for the {@link CourseDocumentsComponent}.
@@ -24,12 +26,37 @@ describe('CourseDocuments', () => {
   let fixture: ComponentFixture<CourseDocumentsComponent>;
 
   /**
+   * Mock for {@link DocumentService}.
+   */
+  let mockDocumentService: any;
+
+  /**
+   * Mock for {@link ActivatedRoute}.
+   */
+  let mockActivatedRoute: any;
+
+  /**
    * Configures the testing module and initializes the component
    * before each test case.
    */
   beforeEach(async () => {
+    mockDocumentService = jasmine.createSpyObj('DocumentService', ['getDocumentsByCourse']);
+    mockDocumentService.getDocumentsByCourse.and.returnValue(of([]));
+
+    mockActivatedRoute = {
+      snapshot: {
+        paramMap: {
+          get: (key: string) => '1'
+        }
+      }
+    };
+
     await TestBed.configureTestingModule({
-      imports: [CourseDocumentsComponent]
+      declarations: [CourseDocumentsComponent],
+      providers: [
+        { provide: DocumentService, useValue: mockDocumentService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute }
+      ]
     })
     .compileComponents();
 

@@ -25,8 +25,6 @@ To run the locally (development), Docker must be installed:
 
 To run the backend tests:
 - `docker compose -f docker-compose.dev.yml run --rm backend mvn test`
-- docker compose -f docker-compose.dev.yml run --rm backend mvn -Dtest=AuthControllerTest test
-  docker compose -f docker-compose.dev.yml run --rm backend mvn -Dtest=AuthControllerTest#testLoginSuccess test
 
 To run the frontend tests:
-- `docker compose -f docker-compose.dev.yml run --rm frontend npm test -- --watch=false`
+- `docker compose -f docker-compose.dev.yml run --rm frontend npm test -- --watch=false --browsers=ChromeHeadlessNoSandbox`

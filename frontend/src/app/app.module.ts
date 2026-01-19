@@ -14,6 +14,7 @@ import {AdminDashboardComponent} from "./admindashboard/admin-dashboard.componen
 import {UserDashboardComponent} from "./userdashboard/user-dashboard.component";
 import {CoursesListComponent} from "./courseslist/courses-list.component";
 import {ConnectionStatusComponent} from "./connection-status/connection-status.component";
+import {CourseDocumentsComponent} from "./course-documents/course-documents";
 
 /**
  * Root Angular module.
@@ -42,7 +43,8 @@ import {ConnectionStatusComponent} from "./connection-status/connection-status.c
     LayoutComponent,
     AdminDashboardComponent,
     UserDashboardComponent,
-    CoursesListComponent
+    CoursesListComponent,
+    CourseDocumentsComponent
   ],
 
   /**
