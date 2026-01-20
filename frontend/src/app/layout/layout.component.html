@@ -1,8 +1,8 @@
-<div class="min-h-screen bg-slate-50 flex flex-col">
+<div class="min-h-screen overflow-hidden bg-slate-50 flex flex-col">
   <!-- ===================== -->
   <!-- Topbar / Header -->
   <!-- ===================== -->
-  <header class="sticky top-0 z-30 h-16 bg-white border-b border-slate-200">
+  <header class="fixed top-0 left-0 right-0 z-30 h-16 bg-white border-b border-slate-200">
     <div class="mx-auto px-6 h-full flex items-center justify-between gap-4">
 
       <!-- Left section: logo, mobile menu toggle, user display name, connection status -->
@@ -68,7 +68,7 @@
   <div class="flex flex-1 min-h-[calc(100vh-64px)]">
 
     <!-- Sidebar navigation (responsive: fixed overlay on mobile, static on desktop) -->
-    <aside class="w-[260px] bg-slate-900 text-white border-r border-white/10 p-4 flex flex-col gap-3.5 fixed md:static top-16 left-0 bottom-0 z-40 transition-transform duration-250 ease-in-out md:translate-x-0"
+    <aside class="w-[260px] bg-slate-900 text-white border-r border-white/10 p-4 flex flex-col gap-3.5 fixed top-16 left-0 bottom-0 z-30 transition-transform duration-250 ease-in-out md:translate-x-0"
            [class.-translate-x-full]="!sidebarOpen"
            [class.translate-x-0]="sidebarOpen">
 
@@ -108,7 +108,7 @@
     <div class="fixed inset-0 bg-slate-900/45 z-35 md:hidden" *ngIf="sidebarOpen" (click)="toggleSidebar()"></div>
 
     <!-- Main routed content -->
-    <main class="flex-1 p-6">
+    <main class="absolute top-16 left-[260px] right-0 bottom-0 overflow-y-auto flex-1 p-6">
       <router-outlet></router-outlet>
     </main>
   </div>
