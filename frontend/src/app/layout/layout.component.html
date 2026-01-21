@@ -108,7 +108,7 @@
     <div class="fixed inset-0 bg-slate-900/45 z-35 md:hidden" *ngIf="sidebarOpen" (click)="toggleSidebar()"></div>
 
     <!-- Main routed content -->
-    <main class="absolute top-16 left-[260px] right-0 bottom-0 overflow-y-auto flex-1 p-6">
+    <main class="absolute top-16 left-0 md:left-[260px] right-0 bottom-0 overflow-y-auto flex-1 p-6">
       <router-outlet></router-outlet>
     </main>
   </div>
