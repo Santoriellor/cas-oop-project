@@ -124,18 +124,21 @@ export class CoursesListComponent implements OnInit {
    *
    * @param id ID of the certificate/course
    */
-  downloadCert(id: number) {
-    this.courseService.downloadCertificate(id).subscribe(blob => {
-      const url = window.URL.createObjectURL(blob);
+  downloadCert(courseId: number) {
+    const certificate = this.myCertificates.find(c => c.course.id === courseId);
+    if (certificate) {
+      this.courseService.downloadCertificate(certificate.id!).subscribe(blob => {
+        const url = window.URL.createObjectURL(blob);
 
-      // Create a temporary anchor element to trigger the download
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `certificate-${id}.pdf`; // or .png
-      a.click();
+        // Create a temporary anchor element to trigger the download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `certificate-${certificate.id!}.pdf`; // or .png
+        a.click();
 
-      // Release the object URL to free memory
-      window.URL.revokeObjectURL(url);
-    });
+        // Release the object URL to free memory
+        window.URL.revokeObjectURL(url);
+      });
+    }
   }
 }

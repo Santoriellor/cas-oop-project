@@ -12,7 +12,7 @@
 ### Minimum viable product:
 -[X] API endpoint for getting all courses → Jonathan
 -[ ] API endpoint for getting courses (filtering and sorting allowed, if possible paginating)
--[ ] API endpoint for getting a specific course detail
+-[X] API endpoint for getting a specific course detail
 ### Future features: teacher dashboard
 -[X] API endpoint for creating a new course (teacher only) → Jonathan
 -[X] API endpoint for updating a specific course (teacher only) → Jonathan
@@ -28,6 +28,7 @@
 
 ## Certifications relevant features:
 ### Minimum viable product:
+-[X] API endpoint for getting certifications for a specific user
 -[ ] API endpoint for getting certifications for a specific user (filtering and sorting allowed, if possible paginating)
 ### Future features: teacher dashboard
 -[ ] API endpoint for creating a new certification (teacher only)
@@ -79,6 +80,6 @@ JSON format : // to be defined
 ## Integration tests
 ### Pro feature
 -[X] Integration tests for authentication → Rémy
--[ ] Integration tests for courses
--[ ] Integration tests for documents
--[ ] Integration tests for certifications
+-[X] Integration tests for courses → Andreas
+-[X] Integration tests for documents → Andreas
+-[X] Integration tests for certifications → Andreas
