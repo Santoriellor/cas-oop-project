@@ -144,7 +144,7 @@ public class EnrollmentController {
             emailService.sendEmail(
                     user.getEmail(),
                     "Kursanmeldung bestätigt",
-                    "Hallo " + user.getEmail() + ",\n\nSie haben sich erfolgreich für den Kurs '" + course.getName() + "' angemeldet.\n\nViele Grüße\nDas Kurs Team Retrained"
+                    "Hallo " + user.getUsername() + ",\n\nSie haben sich erfolgreich für den Kurs '" + course.getName() + "' angemeldet.\n\nViele Grüße\nDas Kurs Team Retrained"
             );
         } catch (Exception e) {
             // Optional: Loggen, falls E-Mail nicht gesendet werden kann
