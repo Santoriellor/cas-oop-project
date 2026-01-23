@@ -13,6 +13,9 @@ Configuration:
 - Spring Boot: application.yml
 - Angular: angular.json
 
+The app is deployed on a VPS with Docker and served through Traefik: https://casproject.santoriello.ch
+Each push to the `main` branch to https://github.com/Santoriellor/cas-oop-project/ repository triggers a new build and deployment via GitHub Actions.
+
 To run the app locally (development), Docker must be installed:
 - the first time `docker compose -f docker-compose.dev.yml up --build -d`
   (the backend might take a while to build the image and be ready)
