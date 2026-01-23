@@ -6,6 +6,7 @@ import ch.zhaw.casproject.model.User;
 import ch.zhaw.casproject.repository.CourseRepository;
 import ch.zhaw.casproject.repository.EnrollmentRepository;
 import ch.zhaw.casproject.repository.UserRepository;
+import ch.zhaw.casproject.service.EmailService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -53,6 +54,12 @@ public class EnrollmentController {
 
     @Autowired
     private CourseRepository courseRepository;
+
+
+    @Autowired
+    private EmailService emailService;
+
+
 
     /**
      * Returns all enrollments.
@@ -113,7 +120,7 @@ public class EnrollmentController {
     public Enrollment createEnrollment(@RequestBody EnrollmentRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         User user = userRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User nicht gefunden"));
-        
+
         Course course = courseRepository.findById(request.getCourseId())
                 .orElseThrow(() -> new RuntimeException("Kurs nicht gefunden"));
 
@@ -128,7 +135,25 @@ public class EnrollmentController {
         enrollment.setCourse(course);
         enrollment.setStatus("angemeldet");
 
-        return enrollmentRepository.save(enrollment);
+        // --- SPEICHERN UND IN VARIABLE ZURÜCKGEBEN ---
+        Enrollment savedEnrollment = enrollmentRepository.save(enrollment);
+
+
+        // --- EMAIL VERSAND ---
+        try {
+            emailService.sendEmail(
+                    user.getEmail(),
+                    "Kursanmeldung bestätigt",
+                    "Hallo " + user.getEmail() + ",\n\nSie haben sich erfolgreich für den Kurs '" + course.getName() + "' angemeldet.\n\nViele Grüße\nDas Kurs Team Retrained"
+            );
+        } catch (Exception e) {
+            // Optional: Loggen, falls E-Mail nicht gesendet werden kann
+            System.err.println("Fehler beim Senden der Email: " + e.getMessage());
+        }
+
+        return savedEnrollment;
+
+
     }
 }
 
