@@ -38,6 +38,7 @@ services:
       - "traefik.http.routers.casproject-backend.entrypoints=websecure"
       - "traefik.http.routers.casproject-backend.tls.certresolver=le"
       - "traefik.http.routers.casproject-backend.service=casproject-backend"
+      - "traefik.http.routers.casproject-backend.priority=100"
       # Springboot listens on port 8080
       - "traefik.http.services.casproject-backend.loadbalancer.server.port=8080"
 
