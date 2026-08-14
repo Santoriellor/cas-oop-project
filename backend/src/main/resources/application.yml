@@ -4,9 +4,9 @@ spring:
   main:
     allow-bean-definition-overriding: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/demo_db
-    username: demo_user
-    password: demo_pass
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/casproject}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: false
@@ -60,3 +60,6 @@ app:
     secret: "my-super-strong-and-long-secret-key-12345"
     expiration-ms: 3600000
   frontend-url: https://casproject.santoriello.ch
+
+jwt:
+  secret: ${JWT_SECRET:}
