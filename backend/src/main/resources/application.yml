@@ -56,9 +56,6 @@ server:
   port: 8080
 
 app:
-  jwt:
-    secret: "my-super-strong-and-long-secret-key-12345"
-    expiration-ms: 3600000
   frontend-url: https://casproject.santoriello.ch
 
 jwt:
