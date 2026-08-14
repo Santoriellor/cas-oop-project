@@ -30,6 +30,9 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
+      # Pin the network Traefik routes over. Containers attached to more than one
+      # network leave the choice non-deterministic, and Traefik can pick the internal one.
+      - "traefik.docker.network=proxy-network"
 
       # Backend is served at https://casproject.santoriello.ch/api
       - "traefik.http.routers.casproject-backend.rule=Host(`casproject.santoriello.ch`) && PathPrefix(`/api`)"
@@ -52,6 +55,9 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
+      # Pin the network Traefik routes over. Containers attached to more than one
+      # network leave the choice non-deterministic, and Traefik can pick the internal one.
+      - "traefik.docker.network=proxy-network"
       - "traefik.http.routers.casproject-frontend.rule=Host(`casproject.santoriello.ch`)"
       - "traefik.http.routers.casproject-frontend.entrypoints=websecure"
       - "traefik.http.routers.casproject-frontend.tls.certresolver=le"
