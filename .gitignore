@@ -8,3 +8,9 @@ backend/uploads/
 frontend/node_modules/
 frontend/build/
 frontend/.angular/
+
+# Environment files - never commit these.
+# Production values live in /srv/secrets/casproject/ on the VPS.
+.env
+.env.*
+!.env.example
