@@ -26,3 +26,18 @@ To run the backend tests:
 
 To run the frontend tests:
 - `docker compose -f docker-compose.dev.yml run --rm frontend npm test -- --watch=false --browsers=ChromeHeadlessNoSandbox`
+
+## Configuration
+
+No credentials are stored in this repository.
+
+**Local development:** copy `.env.example` to `.env` and fill in your own values.
+`.env` is gitignored.
+
+**Production:** secrets live on the deployment host at `/srv/secrets/casproject/`
+(`db.env`, `jwt.env`, `mail.env`), outside the deploy directory so the deployment
+rsync cannot overwrite them. `docker-compose.yml` injects them with `env_file`.
+
+The JWT signing key is supplied as `JWT_SECRET` and validated at startup — the
+application refuses to boot if it is absent, unchanged from a known-bad value, or
+shorter than 32 bytes.
