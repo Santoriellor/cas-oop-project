@@ -42,6 +42,8 @@ services:
       - "traefik.http.routers.casproject-backend.priority=100"
       # Springboot listens on port 8080
       - "traefik.http.services.casproject-backend.loadbalancer.server.port=8080"
+      # security-headers and gzip-compress live in Traefik's file provider.
+      - "traefik.http.routers.casproject-backend.middlewares=security-headers@file,gzip-compress@file"
 
   frontend:
     build:
@@ -62,6 +64,7 @@ services:
       - "traefik.http.routers.casproject-frontend.entrypoints=websecure"
       - "traefik.http.routers.casproject-frontend.tls.certresolver=le"
       - "traefik.http.services.casproject-frontend.loadbalancer.server.port=80"
+      - "traefik.http.routers.casproject-frontend.middlewares=security-headers@file,gzip-compress@file"
 
 volumes:
   pgdata:
