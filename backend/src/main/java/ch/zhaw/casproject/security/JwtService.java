@@ -76,11 +76,6 @@ public class JwtService {
         }
     }
 
-    /*public String getUsernameFromJwtToken(String token) {
-        Claims claims = Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody();
-        return claims.getSubject();
-    }*/
-
     // --- Key generation helpers ---
 
     /**
