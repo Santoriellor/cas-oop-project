@@ -63,7 +63,7 @@ services:
       - "traefik.http.routers.casproject-frontend.rule=Host(`casproject.santoriello.ch`)"
       - "traefik.http.routers.casproject-frontend.entrypoints=websecure"
       - "traefik.http.routers.casproject-frontend.tls.certresolver=le"
-      - "traefik.http.services.casproject-frontend.loadbalancer.server.port=80"
+      - "traefik.http.services.casproject-frontend.loadbalancer.server.port=8080"
       - "traefik.http.routers.casproject-frontend.middlewares=security-headers@file,gzip-compress@file"
 
 volumes:
