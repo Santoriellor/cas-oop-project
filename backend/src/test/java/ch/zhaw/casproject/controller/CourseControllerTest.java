@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.file.Files;
@@ -35,6 +36,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(CourseController.class)
 @AutoConfigureMockMvc(addFilters = false)
+// uploadMaterials drives the real controller, which creates app.upload-dir and
+// writes into it. The default is /app/uploads - an absolute path only root can
+// create - so this test passed in a root container and failed on CI, which runs
+// unprivileged. Point it at the JVM temp dir so it passes as any user.
+@TestPropertySource(properties = "app.upload-dir=${java.io.tmpdir}/casproject-test-uploads")
 class CourseControllerTest {
 
     @Autowired
