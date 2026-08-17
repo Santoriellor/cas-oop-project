@@ -15,3 +15,6 @@ frontend/.angular/
 .env
 .env.*
 !.env.example
+
+# Application logs - containers log to stdout; docker logs collects them
+backend/logs/
