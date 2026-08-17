@@ -9,6 +9,13 @@ services:
     networks:
       - casprojectnet
     restart: unless-stopped
+    healthcheck:
+      # POSTGRES_USER and POSTGRES_DB come from /srv/secrets/casproject/db.env.
+      test: ["CMD-SHELL", "pg_isready -q -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
   backend:
     build:
@@ -44,6 +51,15 @@ services:
       - "traefik.http.services.casproject-backend.loadbalancer.server.port=8080"
       # security-headers and gzip-compress live in Traefik's file provider.
       - "traefik.http.routers.casproject-backend.middlewares=security-headers@file,gzip-compress@file"
+    healthcheck:
+      # bash explicitly: /dev/tcp is a bash builtin and this image's /bin/sh is
+      # dash. No actuator dependency exists, so a TCP connect is the available
+      # readiness signal - Tomcat binds 8080 only after the context loads.
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
 
   frontend:
     build:
@@ -65,6 +81,12 @@ services:
       - "traefik.http.routers.casproject-frontend.tls.certresolver=le"
       - "traefik.http.services.casproject-frontend.loadbalancer.server.port=8080"
       - "traefik.http.routers.casproject-frontend.middlewares=security-headers@file,gzip-compress@file"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
 volumes:
   pgdata:
