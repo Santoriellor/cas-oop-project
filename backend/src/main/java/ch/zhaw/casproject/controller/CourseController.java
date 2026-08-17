@@ -8,6 +8,7 @@ import ch.zhaw.casproject.repository.CourseRepository;
 import ch.zhaw.casproject.repository.EnrollmentRepository;
 import ch.zhaw.casproject.service.CertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import ch.zhaw.casproject.model.User;
 import ch.zhaw.casproject.repository.UserRepository;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -87,6 +88,13 @@ public class CourseController {
     private UserRepository userRepository;
 
     /**
+     * Filesystem directory where uploaded course materials are stored.
+     */
+
+    @Value("${app.upload-dir:/app/uploads}")
+    private String uploadDir;
+
+    /**
      * Returns a list of all courses.
      *
      * @return all available {@link Course} entities
@@ -131,10 +139,10 @@ public class CourseController {
 
         // Handle optional materials upload
         if (file != null && !file.isEmpty()) {
-            Path uploadDir = Paths.get("uploads");
-            Files.createDirectories(uploadDir);
+            Path uploadDirPath = Paths.get(this.uploadDir);
+            Files.createDirectories(uploadDirPath);
 
-            Path filePath = uploadDir.resolve(file.getOriginalFilename());
+            Path filePath = uploadDirPath.resolve(file.getOriginalFilename());
             Files.write(filePath, file.getBytes());
 
             course.setMaterials(filePath.toString());
@@ -230,10 +238,10 @@ public class CourseController {
 
         // Upload updated materials if provided
         if (file != null && !file.isEmpty()) {
-            Path uploadDir = Paths.get("uploads");
-            Files.createDirectories(uploadDir);
+            Path uploadDirPath = Paths.get(this.uploadDir);
+            Files.createDirectories(uploadDirPath);
 
-            Path filePath = uploadDir.resolve(file.getOriginalFilename());
+            Path filePath = uploadDirPath.resolve(file.getOriginalFilename());
             Files.write(filePath, file.getBytes());
 
             course.setMaterials(filePath.toString());
@@ -325,12 +333,12 @@ public class CourseController {
                 .orElseThrow(() -> new RuntimeException("Kurs nicht gefunden"));
 
         try {
-            Path uploadDir = Paths.get("uploads");
-            if (!Files.exists(uploadDir)) {
-                Files.createDirectories(uploadDir);
+            Path uploadDirPath = Paths.get(this.uploadDir);
+            if (!Files.exists(uploadDirPath)) {
+                Files.createDirectories(uploadDirPath);
             }
 
-            Path filePath = uploadDir.resolve(file.getOriginalFilename());
+            Path filePath = uploadDirPath.resolve(file.getOriginalFilename());
             Files.write(filePath, file.getBytes());
 
             course.setMaterials(filePath.toString());

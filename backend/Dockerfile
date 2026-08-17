@@ -26,9 +26,13 @@ COPY --from=build /app/target/backend-0.0.1-SNAPSHOT.jar app.jar
 # getent guards: these base images already ship a default user at uid/gid 1000,
 # so a bare groupadd/useradd exits non-zero and fails the build. The numeric
 # uid is what matters - /app must be owned by 1000 either way.
+# /app/uploads must exist in the image, not just in the compose volume: Docker
+# copies an image directory's content AND ownership into a named volume the
+# first time it is mounted, but only if the path exists. Without this the
+# volume is created root-owned and uid 1000 cannot write to it.
 RUN (getent group 1000 || groupadd --gid 1000 app) \
     && (getent passwd 1000 || useradd --uid 1000 --gid 1000 --no-create-home --shell /usr/sbin/nologin app) \
-    && mkdir -p /app/logs \
+    && mkdir -p /app/logs /app/uploads \
     && chown -R 1000:1000 /app
 
 USER 1000:1000

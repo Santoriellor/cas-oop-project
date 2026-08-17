@@ -55,6 +55,7 @@ server:
 
 app:
   frontend-url: https://casproject.santoriello.ch
+  upload-dir: ${UPLOAD_DIR:/app/uploads}
 
 jwt:
   secret: ${JWT_SECRET:}

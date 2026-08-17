@@ -35,6 +35,8 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/casproject
       SERVER_PORT: 8080
+    volumes:
+      - uploads:/app/uploads
     networks:
       - casprojectnet
       - proxy-network
@@ -95,6 +97,7 @@ services:
 
 volumes:
   pgdata:
+  uploads:
 
 networks:
   casprojectnet:
