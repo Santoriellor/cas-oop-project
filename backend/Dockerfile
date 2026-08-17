@@ -9,8 +9,11 @@ COPY backend/ ./
 # Download dependencies first (for caching)
 RUN mvn dependency:go-offline -B
 
-# Build the application (skip tests for faster build)
-RUN mvn clean package spring-boot:repackage -DskipTests -B
+# Build the application. Tests RUN here on purpose: this is the gate that stops
+# a broken backend from being packaged into a deployable image. A failing test
+# fails the build, which fails the deploy - that is the intended behaviour, so
+# never reinstate -DskipTests to "unblock" a deploy.
+RUN mvn clean package spring-boot:repackage -B
 
 # Stage 2 — Run the JAR
 # Runtime needs a JRE, not a JDK. Java 21 matches the build: the build stage is
