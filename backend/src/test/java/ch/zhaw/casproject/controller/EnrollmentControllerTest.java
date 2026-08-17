@@ -7,6 +7,7 @@ import ch.zhaw.casproject.repository.CourseRepository;
 import ch.zhaw.casproject.repository.EnrollmentRepository;
 import ch.zhaw.casproject.repository.UserRepository;
 import ch.zhaw.casproject.security.JwtAuthenticationFilter;
+import ch.zhaw.casproject.service.EmailService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.Assertions;
@@ -52,6 +53,9 @@ class EnrollmentControllerTest {
 
     @MockBean
     private CourseRepository courseRepository;
+
+    @MockBean
+    private EmailService emailService;
 
     @Autowired
     private ObjectMapper objectMapper;
