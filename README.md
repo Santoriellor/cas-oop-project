@@ -1,3 +1,5 @@
+[![Deploy](https://github.com/Santoriellor/cas-oop-project/actions/workflows/deploy.yml/badge.svg)](https://github.com/Santoriellor/cas-oop-project/actions/workflows/deploy.yml)
+
 # CAS project Webapp (Spring Boot + Angular + PostgreSQL)
 
 Architecture:
