@@ -30,7 +30,9 @@ module.exports = function (config) {
       ]
     },
     reporters: ['progress', 'kjhtml'],
-    browsers: ['Chrome'],
+    // ChromeHeadlessNoSandbox (defined below) is the default so CI needs no flags.
+    // The --no-sandbox arg is required because CI runners execute as root.
+    browsers: ['ChromeHeadlessNoSandbox'],
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',
