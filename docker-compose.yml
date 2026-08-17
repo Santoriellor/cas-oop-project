@@ -23,7 +23,11 @@ services:
       dockerfile: backend/Dockerfile
     container_name: casproject_backend
     depends_on:
-      - db
+      db:
+        # service_healthy, not the default service_started: a started postgres
+        # is not an accepting postgres, so the backend used to race the
+        # database on every deploy and rely on restart to recover.
+        condition: service_healthy
     env_file:
       - /srv/secrets/casproject/db.env
       - /srv/secrets/casproject/jwt.env
@@ -67,7 +71,8 @@ services:
       dockerfile: frontend/Dockerfile
     container_name: casproject_frontend
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     networks:
       - proxy-network
     restart: unless-stopped
