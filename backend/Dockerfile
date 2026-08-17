@@ -13,7 +13,9 @@ RUN mvn dependency:go-offline -B
 RUN mvn clean package spring-boot:repackage -DskipTests -B
 
 # Stage 2 — Run the JAR
-FROM eclipse-temurin:25-jdk
+# Runtime needs a JRE, not a JDK. Java 21 matches the build: the build stage is
+# maven:3.9-eclipse-temurin-21 and pom.xml sets maven.compiler.release=21.
+FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 COPY --from=build /app/target/backend-0.0.1-SNAPSHOT.jar app.jar
