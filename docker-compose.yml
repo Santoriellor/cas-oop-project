@@ -6,6 +6,11 @@ services:
       - /srv/secrets/casproject/db.env
     volumes:
       - pgdata:/var/lib/postgresql/data
+      # Schema of record, applied only when the data directory is empty. The live
+      # volume is already populated, so this is inert here and exists so a fresh
+      # environment has a defined starting schema - previously it had none, and
+      # ddl-auto: update was the only thing that ever created these tables.
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - casprojectnet
     restart: unless-stopped
